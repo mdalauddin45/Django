@@ -7,5 +7,37 @@
 </head>
 <body>
     <h1>This is first app template home page</h1>
+    <h2>Name: {{author}}</h2>
+    <h2>Age: {{age}}</h2>
+    <h1>Major Template Filters in Django</h1>
+    
+    <h2>add: {{ age| add:"2" }}</h2>
+    <h2>addslashes: {{ address| addslashes  }}</h2>
+    <h2>capfirst: {{ address| capfirst  }}</h2>
+    <h2>center: {{ address| center:"15" }}</h2>
+    <h2>cut: {{ string| cut:" " }}</h2>
+    <h2>date: {{ date| date:"D d M Y" }}</h2>
+    <h2>default: {{ empty| default:"nothing" }}</h2>
+    <h2>dictsort: {{ dictsort| dictsort:"name" }}</h2>
+    {% comment %} <h2>divisibleby: {{ divisibleby| divisibleby:"3" }}</h2> {% endcomment %}
+    <h2>divisibleby: {{ age| divisibleby:"3" }}</h2>
+    <h2>filesizeformat: {{ size| filesizeformat  }}</h2>
+    <h2>first: {{ lst| first   }}</h2>
+    <h2>Join: {{ lst| join:" // "   }}</h2>
+    <h2>last: {{ lst| last   }}</h2>
+    <h2>Length: {{ lst| length   }}</h2>
+    <h2>linenumbers: {{ number| linenumbers}}</h2>
+    <h2>lower: {{ name| lower}}</h2>
+    <h2>make_list: {{ size| make_list}}</h2>
+    <h2>random: {{ lst| random}}</h2>
+    <h2>slice: {{ lst| slice:":2"}}</h2>
+    <h2>slugify: {{ lst| slugify }}</h2>
+    <h2>time: {{ time| time:"H:i" }}</h2>
+    {% comment %} <h2>timesince: {{ blog_date | timesince:comment_date }}</h2> {% endcomment %}
+    <h2>title: {{ title| title  }}</h2>
+    <h2>upper: {{ hello| upper  }}</h2>
+    <h2>wordcount: {{ hello| wordcount  }}</h2>
+
+ 
 </body>
 </html>
