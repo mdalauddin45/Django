@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>This is first app template home page</h1>
+    <h2>Name: {{author}}</h2>
+    <h2>Age: {{age}}</h2>
+    <h1>Popular Built-in Django Template Filters</h1>
+    
+    <h2>Join: {{ list| join:" - "   }}</h2>
+    <h2>Join: {{ lst| join:" - "   }}</h2>
+    <h2>Join: {{ lst| join:" // "   }}</h2>
+    <h2>date: {{ date| date:"D d M Y" }}</h2>
+    <h2>date: {{ date| date:"SHORT_DATE_FORMAT" }}</h2>
+    <h2>default: {{ empty| default:"nothing" }}</h2>
+    <h2>add: {{ lists | add:"[4]" }}</h2>
+    <h2>capfirst: {{ author| capfirst  }}</h2>
+    <h2>capfirst: {{ course| capfirst  }}</h2>
+    <h2>cut: {{ string| cut:" " }}</h2>
+    <h2>dictsort: {{ dictsort| dictsort:"name" }}</h2>
+    <h2>first: {{ lst| first   }}</h2>
+    <h2>last: {{ lst| last   }}</h2>
+    <h2>Length: {{ lst| length   }}</h2>
+    <h2>linenumbers: {{ number| linenumbers}}</h2>
+    <h2>lower: {{ name| lower}}</h2>
+    <h2>upper: {{ hello| upper  }}</h2>
+    <h2>title: {{ title| title  }}</h2>
+    <h2>random: {{ lst| random}}</h2>
+    <h2>slice: {{ lst| slice:":2"}}</h2>
+    <h2>time: {{ time| time:"H:i" }}</h2>
+    <h2>truncatechars:{{ title| truncatechars:6 }}</h2>
+    {% comment %} <h2>timesince:{{ published T published | timesince }}</h2> {% endcomment %}
+    <h2>wordcount: {{ hello| wordcount  }}</h2>
+    <h2>striptags: {{ joe| striptags  }}</h2>
+    <h2>make_list: {{ size| make_list}}</h2>
+
+    < is converted to &lt;
+    > is converted to &gt;
+    ' (single quote) is converted to &#x27;
+    " (double quote) is converted to &quot;
+    & is converted to &amp;
+    <p>This <em>should be</em> fun!</p> | escape
+
+</body>
+</html>
