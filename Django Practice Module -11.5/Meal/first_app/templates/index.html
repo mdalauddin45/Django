@@ -13,25 +13,87 @@
   </head>
   <body>
     <div class="container">
-      <h1>Wellcome to the meal page</h1>
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/first_app/">Meal</a>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <h1 class="text-center px-5 py-5">Wellcome to the meal page</h1>
       <div class="row">
         {% for i in data %}
         <div class="col-md-4 col-sm-6 py-3 px-1">
           <div class="card" style="width: 18rem">
-            <img src="{{i.strMealThumb}}" class="card-img-top img-fluid" alt="..." />
+            <img
+              src="{{i.strMealThumb}}"
+              class="card-img-top img-fluid"
+              alt="..."
+            />
             <div class="card-body">
               <h5 class="card-title">{{i.strMeal}}</h5>
               <p class="card-text">
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </p>
-              <a href="#" class="btn btn-primary">Check Out</a>
+              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal_{{ forloop.counter }}">Check Out</a>
             </div>
           </div>
         </div>
+        
         {% endfor %}
+        
+        {% for i in data %}
+<div class="modal fade" id="myModal_{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Meal: {{ i.strMeal }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="{{ i.strMealThumb }}" alt="Meal Image" class="img-fluid">
+        <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
+  </div>
+</div>
+{% endfor %}
+
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
