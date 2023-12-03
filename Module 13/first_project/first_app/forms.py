@@ -1,3 +1,4 @@
+from typing import Any
 from django import forms
 from django.core import validators
 # widgets == field to html input 
@@ -27,3 +28,13 @@ class passwordValidationFrom(forms.Form):
     name = forms.CharField(widget=forms.TextInput)
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        val_pass = self.cleaned_data['password']
+        con_pass = self.cleaned_data['confirm_password']
+        user_name = self.cleaned_data['name']
+        if val_pass != con_pass:
+            raise forms.ValidationError('password does not match')
+        if len(user_name) <15:
+            raise forms.ValidationError('Name must be at least 15 characters')
