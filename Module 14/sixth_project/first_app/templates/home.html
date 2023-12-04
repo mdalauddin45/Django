@@ -3,6 +3,10 @@
 {% block content %}
 
 <h1>This is Home page</h1>
-{% comment %} <img src="{% static 'images/pic.png' %}" alt="bird image" /> {% endcomment %}
-
+<h1>Student List</h1>
+    <ul>
+        {% for i in data %}
+            <li>{{ i.name }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
