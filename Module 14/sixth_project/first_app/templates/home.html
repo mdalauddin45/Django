@@ -1,12 +1,27 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <h1>This is Home page</h1>
-<h1>Student List</h1>
-    <ul>
-        {% for i in data %}
-            <li>{{ i.name }}</li>
-        {% endfor %}
-    </ul>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Roll</th>
+      <th scope="col">Name</th>
+      <th scope="col">Fahter's Name</th>
+      <th scope="col">Adress</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in data %}
+    <tr>
+      <th scope="row">{{i.roll}}</th>
+      <td>{{i.name}}</td>
+      <td>{{i.father_name}}</td>
+      <td>{{i.address}}</td>
+      <td><a class="btn btn-danger" href="{% url 'delete_student' i.roll %}">Delete</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
