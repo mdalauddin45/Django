@@ -9,3 +9,5 @@ class Post(models.Model):
     category = models.ManyToManyField(Category) #akta post multiple categorir moddhy takty pary abr akta categorir moddhy multiple post takty pary
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
  
+    def __str__(self):
+        return self.title
