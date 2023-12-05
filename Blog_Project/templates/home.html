@@ -16,7 +16,7 @@
               {% endif %}
             {% endfor %}
           </p>
-          <a href={% url 'edit_post' i.id %} class="btn btn-danger">Delete</a>
+          <a href={% url 'delete_post' i.id %} class="btn btn-danger">Delete</a>
           <a href={% url 'edit_post' i.id %} class="btn btn-warning">Edit</a>
         </div>
       </div>
