@@ -1,5 +1,6 @@
 from typing import Any
 from django import forms 
+from .models import MyModel
 import datetime
 
 class ContactForm(forms.Form):
@@ -21,4 +22,7 @@ class ContactForm(forms.Form):
     favorite_color = forms.ChoiceField(choices=Favorite_color_choices)
     favorite_colors = forms.MultipleChoiceField(choices=Favorite_color_choices,widget=forms.CheckboxSelectMultiple)
 
-    
+class MyForm(forms.ModelForm):
+    class Meta:
+        model = MyModel
+        fields = '__all__'
