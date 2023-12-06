@@ -1,7 +1,10 @@
 from django import forms
 from .models import Album
 
-class AlbulForm(forms.ModelForm):
+class AlbumForm(forms.ModelForm):
     class Meta:
         model = Album
         fields = '__all__'
+        widgets = {
+            'release_date': forms.DateInput(attrs={'type': 'date'}),
+        }

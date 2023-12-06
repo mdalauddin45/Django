@@ -8,3 +8,5 @@ class Album(models.Model):
     release_date  = models.DateField()
     rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
     
+    def __str__(self):
+        return self.album_name
