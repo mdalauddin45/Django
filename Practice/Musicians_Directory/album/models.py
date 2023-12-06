@@ -7,3 +7,6 @@ class Album(models.Model):
     musicians = models.ManyToManyField(Musician)
     release_date  = models.DateField()
     rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
+    
+    def __str__(self):
+        return self.album_name
