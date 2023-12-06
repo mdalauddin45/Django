@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
 from .import forms
-from .import models
 
 # Create your views here.
 def musician(request):
