@@ -1,7 +1,7 @@
 from django import forms
 from .models import Musician
 
-class AlbulForm(forms.Form):
+class MusicianForm(forms.ModelForm):
     class Meta:
         model = Musician
         fields = '__all__'
