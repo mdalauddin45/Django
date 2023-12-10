@@ -4,6 +4,8 @@ from django.contrib import messages
 
 # Create your views here.
 def home(request):
+    return render(request, 'home.html')
+def signup(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -12,4 +14,4 @@ def home(request):
             print(form.cleaned_data)
     else:
         form = RegisterForm()
-    return render(request,'home.html',{'form':form})
+    return render(request,'signup.html',{'form':form})
