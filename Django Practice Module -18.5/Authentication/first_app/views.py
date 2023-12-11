@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect
 from .import forms
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.contrib.auth import authenticate, login, logout
+
 # Create your views here.
 def profile(request):
     return render(request, 'profile.html')
@@ -14,8 +17,23 @@ def registration(request):
             return redirect('register')
     else:
         form = forms.RegistrationForm()
-    return render(request, 'registration.html',{ 'form': form, 'type': 'registration'})
+    return render(request, 'registration.html',{ 'form': form, 'type': 'Registration'})
 def userlogin(request):
-    return render(request, 'registration.html',{'type': 'Login'})
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['username']
+            userpass = form.cleaned_data['password']
+            user = authenticate(username=name, password=userpass)
+            if user is not None:
+                login(request,user)
+                messages.success(request,"login successfully")
+                return redirect('profile')
+            else:
+                messages.warning(request,"Login Failed")
+                return redirect('register')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'registration.html',{'form':form, 'type': 'Login'})
 def userlogout(request):
     return render(request, 'registration.html')
