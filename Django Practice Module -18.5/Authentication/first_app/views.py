@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from .import forms
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, SetPasswordForm
+from django.contrib.auth import authenticate, login, logout,update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -17,7 +17,7 @@ def registration(request):
             print(form.cleaned_data)
             form.save()
             messages.success(request, "Account Created successfully")
-            return redirect('register')
+            return redirect('login')
     else:
         form = forms.RegistrationForm()
     return render(request, 'registration.html',{ 'form': form, 'type': 'Registration'})
@@ -42,4 +42,17 @@ def userlogin(request):
 
 def userlogout(request):
     logout(request)
+    messages.success(request,"logout successfully")
     return redirect('login')
+
+def charngepassword(request):
+    if request.method == 'POST':
+        form = SetPasswordForm(request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Password Changes Succesfully")
+            update_session_auth_hash(request, form.user)
+            return redirect('profile')
+    else:
+        form = SetPasswordForm(user=request.user)
+    return render(request, 'registration.html',{'form':form, 'type': 'Change password'})
