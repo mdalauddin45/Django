@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from .import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate,login
+from django.contrib import messages
+
 # Create your views here.
 
 # def add_author(request):
@@ -21,6 +23,7 @@ def register(request):
         if register_form.is_valid():
             print(register_form.cleaned_data)
             register_form.save()
+            messages.success(request, "Account Created successfully")
             return redirect('register')
     else:
         register_form = forms.RegistrationForm()
@@ -30,17 +33,19 @@ def userlogin(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username, password)
+            name = form.cleaned_data['username']
+            userpass = form.cleaned_data['password']
+            user = authenticate(username= name, password= userpass)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                messages.success(request,"login successfully")
+                return redirect('login')
             else:
+                messages.warning(request, "Login failed")
                 return redirect('register')
     else:
         form = AuthenticationForm()
-        return render(request,'registerform.html',{'form':form, 'type': 'Login'})
+    return render(request,'registerform.html',{'form':form, 'type': 'Login'})
         
             
             
