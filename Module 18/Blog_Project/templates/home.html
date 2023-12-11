@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+<h1>This is home page</h1>
+<div class="row">
+    {% for i in data %}
+    <div class="col-sm-4 mb-3 mb-sm-0">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{i.title}}</h5>
+          <p class="card-text">{{ i.content | slice:":100" }}</p>
+          <p>Author : {{i.author.name}} </p>
+          <p>
+            Categories:
+            {% for c in i.category.all %}
+              <small class="btn btn-primary btn-sm text-white m-2">{{ c.name }}</small>
+              {% if not forloop.last %}, 
+              {% endif %}
+            {% endfor %}
+          </p>
+          <a href={% url 'delete_post' i.id %} class="btn btn-danger">Delete</a>
+          <a href={% url 'edit_post' i.id %} class="btn btn-warning">Edit</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

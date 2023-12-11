@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+<h1>This is login page</h1>
+{% load crispy_forms_tags %}
+<form method="POST" enctype="multipart/form-data" novalidate>
+    {% csrf_token %} 
+    <!--{{form | crispy}}-->
+    {% if form.non_field_errors %}
+    {% for er in form.non_field_errors %}
+    <p class="text-danger">{{er}}</p>
+
+    {% endfor %}
+    {% endif %}
+    {% for fm in form%}
+    {{fm.label_tag}}
+    {{fm}}
+    {{fm.errors | striptags}}
+    {% endfor %}
+</br>
+<button type="submit" class="btn btn-warning text-white">Login</button>
+</form>
+{% endblock %}
