@@ -34,7 +34,7 @@
                 <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'register' %}">Add Author</a>
+                <a class="nav-link" href="{% url 'register' %}">Registration</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'add_category' %}">Add Category</a>
@@ -45,15 +45,8 @@
               
             </ul>
             <form class="d-flex" role="search">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
+              <a class=" btn btn-outline-danger mx-2" href="{% url 'register' %}">Registration</a>
+              <a class="btn btn-outline-primary" href="{% url 'login' %}">login</a>
             </form>
           </div>
         </div>

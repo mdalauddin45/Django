@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect
 from .import forms
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate,login
 # Create your views here.
 
 # def add_author(request):
@@ -22,4 +24,23 @@ def register(request):
             return redirect('register')
     else:
         register_form = forms.RegistrationForm()
-    return render(request, 'registerform.html',{'form':register_form})
+    return render(request, 'registerform.html',{'form':register_form, 'type': 'Registration'})
+
+def userlogin(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username, password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                return redirect('register')
+    else:
+        form = AuthenticationForm()
+        return render(request,'registerform.html',{'form':form, 'type': 'Login'})
+        
+            
+            
