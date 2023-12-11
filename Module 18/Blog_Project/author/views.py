@@ -3,6 +3,7 @@ from .import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -29,6 +30,7 @@ def register(request):
         register_form = forms.RegistrationForm()
     return render(request, 'registerform.html',{'form':register_form, 'type': 'Registration'})
 
+
 def userlogin(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
@@ -39,7 +41,7 @@ def userlogin(request):
             if user is not None:
                 login(request, user)
                 messages.success(request,"login successfully")
-                return redirect('login')
+                return redirect('profile')
             else:
                 messages.warning(request, "Login failed")
                 return redirect('register')
@@ -50,6 +52,19 @@ def userlogin(request):
 def userLogout(request):
     logout(request)
     return redirect('login')
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        profile_form = forms.ChangeUserForm(request.POST, instance=request.user)
+        if profile_form.is_valid():
+            print(profile_form.cleaned_data)
+            profile_form.save()
+            messages.success(request, "Profile Updated successfully")
+            return redirect('profile')
+    else:
+        profile_form = forms.ChangeUserForm(instance=request.user)
+    return render(request, 'profile.html',{'form':profile_form, 'type': 'Profile'})
         
             
             
