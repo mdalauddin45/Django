@@ -74,7 +74,7 @@ def passcharnge(request):
             form.save()
             messages.success(request, "Paswrod Changes successfully")
             update_session_auth_hash(request, form.user)
-            return redirect('passcharnge')
+            return redirect('profile')
     else:
         form = PasswordChangeForm(user=request.user)
     return render(request, 'passchange.html',{'form':form, 'type': 'Password Form'})

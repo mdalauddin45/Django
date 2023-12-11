@@ -6,4 +6,5 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = '__all__'
         # field = ['name','bio']
+        exclude = ['author']
         
