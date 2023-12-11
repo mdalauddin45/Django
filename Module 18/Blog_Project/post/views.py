@@ -9,7 +9,7 @@ def add_post(request):
         if post_form.is_valid():
             post_form.instance.author = request.user
             post_form.save()
-            return redirect('add_post')
+            return redirect('profile')
     else:
         post_form = forms.PostForm()
     return render(request, 'post.html',{'form':post_form})
