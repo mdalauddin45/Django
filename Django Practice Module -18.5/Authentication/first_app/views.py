@@ -3,10 +3,13 @@ from .import forms
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def profile(request):
     return render(request, 'profile.html')
+
 def registration(request):
     if request.method == 'POST':
         form = forms.RegistrationForm(request.POST)
@@ -18,6 +21,7 @@ def registration(request):
     else:
         form = forms.RegistrationForm()
     return render(request, 'registration.html',{ 'form': form, 'type': 'Registration'})
+
 def userlogin(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
@@ -35,5 +39,7 @@ def userlogin(request):
     else:
         form = AuthenticationForm()
     return render(request, 'registration.html',{'form':form, 'type': 'Login'})
+
 def userlogout(request):
-    return render(request, 'registration.html')
+    logout(request)
+    return redirect('login')
