@@ -17,6 +17,7 @@
       {% for i in data %}
       <div class="col-sm-4 mb-3 mb-sm-0">
         <div class="card">
+          <img src={{i.image.url}} class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">
               <a class="card-title text-decoration-none" href="{% url 'details_post' i.id %}">{{i.title}}</a>
