@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post,Comment
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -7,4 +7,10 @@ class PostForm(forms.ModelForm):
         fields = '__all__'
         # field = ['name','bio']
         exclude = ['author']
+        
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        # fields = '__all__'
+        fields = ['name','email','body']
         
