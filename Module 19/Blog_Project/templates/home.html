@@ -1,5 +1,7 @@
 {% extends "base.html" %} {% block content %} {% load static %}
 <h1>This is home page</h1>
+<h1>{{name}}</h1>
+
 <div class="d-flex flex-wrap">
   <div class="col-2">
     {% for c in category %}
