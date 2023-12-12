@@ -77,6 +77,10 @@ def userLogout(request):
     logout(request)
     return redirect('login')
 
+class UserLogoutView(LogoutView):
+    def get_success_url(self):
+        return reverse_lazy('home')
+
 @login_required
 def profile(request):
     data = Post.objects.filter(author= request.user)
