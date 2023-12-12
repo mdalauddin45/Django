@@ -18,7 +18,9 @@
       <div class="col-sm-4 mb-3 mb-sm-0">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{i.title}}</h5>
+            <h5 class="card-title">
+              <a class="card-title text-decoration-none" href="{% url 'details_post' i.id %}">{{i.title}}</a>
+            </h5>
             <p class="card-text">{{ i.content | slice:":100" }}</p>
             <p>Author : {{i.author.first_name}} {{i.author.last_name}}</p>
             <p>

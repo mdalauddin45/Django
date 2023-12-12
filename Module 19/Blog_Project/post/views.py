@@ -4,7 +4,7 @@ from .import models
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView,UpdateView,DeleteView
+from django.views.generic import CreateView,UpdateView,DeleteView,DetailView
 # Create your views here.
 
 @login_required
@@ -64,3 +64,9 @@ class DeletePostView(DeleteView):
     template_name = 'delete.html'
     success_url = reverse_lazy('profile')
     pk_url_kwarg = 'id'
+    
+class DetailsPostView(DetailView):
+    model = models.Post
+    pk_url_kwarg = 'id'
+    template_name = 'post_details.html'
+    
