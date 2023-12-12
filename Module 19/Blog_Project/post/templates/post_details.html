@@ -17,18 +17,30 @@
   </div>
 </div>
 <div class="card">
+  <h5 class="card-header">Total Comment: {{ comments | length }}</h5>
   <div class="card-body">
-    {% for comment in comments %}
-        <p>{{ comment.name }}</p>
+    {% for c in comments %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="media">
+          <div class="media-body">
+            <h5 class="mt-0">{{ c.name }}</h5>
+            <p>{{ c.body }}</p>
+            <p>{{ c.created_on }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
     {% endfor %}
   </div>
 </div>
-<div class="card">
+
+<div class="card mt-4">
   <div class="card-body">
     <form method="POST" enctype="multipart/form-data">
-      <h1>Add Comment</h1>
+      <h1 class="mb-4">Add Comment</h1>
       {% csrf_token %} {{ comment_form | crispy }}
-      <button type="submit" class="btn btn-warning text-white">Submit</button>
+      <button type="submit" class="btn btn-warning">Submit</button>
     </form>
   </div>
 </div>
