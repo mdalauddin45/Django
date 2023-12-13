@@ -15,7 +15,7 @@
     </tr>
   </thead>
   <tbody>
-    {% comment %} {% for album in data %}
+    {% for album in data %}
     <tr>
       <th scope="row">{{ album.id }}</th>
       <td>{{ musician.first_name }} {{musician.last_name }}</td>
@@ -29,7 +29,7 @@
         <a href="" class="btn btn-warning">Edit</a>
       </td>
     </tr>
-    {% endfor %} {% endcomment %}
+    {% endfor %}
   </tbody>
 </table>
 {% endblock %}

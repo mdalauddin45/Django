@@ -11,7 +11,7 @@ from .models import Album
 class AlbumAddView(View):
     template_name = 'album.html'
     form_class = AlbumForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('album')
 
     def get(self, request):
         form = self.form_class()
@@ -22,7 +22,7 @@ class AlbumAddView(View):
         if form.is_valid():
             form.save()
             messages.success(request, "Album created successfully")
-            return redirect('home')
+            return redirect('album')
         else:
             messages.warning(request, "Creation failed")
             return render(request, self.template_name, {'form': form})
