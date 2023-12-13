@@ -1,12 +1,13 @@
 from typing import Any
-from django.shortcuts import render,redirect
+from django.shortcuts import render
 from django.views import View
 from .import forms
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView,LogoutView
 from django.views.generic import CreateView
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 class registrationView(CreateView):
@@ -42,11 +43,13 @@ class UserLoginForm(LoginView):
         context['type'] = 'Login'
         return context
 
+@method_decorator(login_required, name='dispatch')
 class UserLogoutView(LogoutView):
     def get_success_url(self):
         messages.success(self.request, "Logout successfully")
         return reverse_lazy('home')
 
+@method_decorator(login_required, name='dispatch')
 class ProfileView(View):
     def get(self, request):
         return render(request, 'profile.html')
