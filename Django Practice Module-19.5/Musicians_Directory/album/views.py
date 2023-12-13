@@ -28,7 +28,8 @@ class AlbumAddView(View):
         else:
             messages.warning(request, "Creation failed")
             return render(request, self.template_name, {'form': form})
-
+        
+@method_decorator(login_required, name='dispatch')
 class EditAlbumView(UpdateView):
     model = models.Album
     form_class = forms.AlbumForm
@@ -40,6 +41,7 @@ class EditAlbumView(UpdateView):
         messages.success(self.request, "Album Updated successfully")
         return super().form_valid(form)
 
+@method_decorator(login_required, name='dispatch')
 class DeleteAlbumView(DeleteView):
     model = models.Album
     success_url = reverse_lazy('home')

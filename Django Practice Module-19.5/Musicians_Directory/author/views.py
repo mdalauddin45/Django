@@ -26,6 +26,7 @@ class registrationView(CreateView):
         context = super().get_context_data(**kwargs)
         context['type']='Registration'
         return context
+    
 class UserLoginForm(LoginView):
     template_name = 'authform.html'
     success_url = reverse_lazy('profile')
