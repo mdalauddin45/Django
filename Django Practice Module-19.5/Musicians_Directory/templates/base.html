@@ -42,15 +42,15 @@
               </li>
               {% endif %} {% endcomment %}
             </ul>
-            {% comment %} <form class="d-flex" role="search">
-              {% if user.is_authenticated %}
+            <form class="d-flex" role="search">
+              {% comment %} {% if user.is_authenticated %}
               <a class="btn btn-outline-success mx-4" href="{% url 'profile' %}">Profile</a>
               <a class="btn btn-outline-danger" href="{% url 'logout' %}">Log Out</a>
               {% else %}
+              {% endif %} {% endcomment %}
               <a class=" btn btn-outline-danger mx-2" href="{% url 'register' %}">Registration</a>
               <a class="btn btn-outline-primary" href="{% url 'login' %}">login</a>
-              {% endif %}
-            </form> {% endcomment %}
+            </form>
           </div>
         </div>
       </nav>
