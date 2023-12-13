@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 class MusicianAddView(View):
     template_name = 'musician.html'
     form_class = forms.MusicianForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('album')
     def get(self, request):
         form = self.form_class()
         return render(request, self.template_name, {'form': form})
@@ -21,7 +21,7 @@ class MusicianAddView(View):
         if form.is_valid():
             form.save()
             messages.success(request, "Musician created successfully")
-            return redirect('home')
+            return redirect('album')
         else:
             messages.warning(request, "Creation failed")
             return render(request, self.template_name, {'form': form})

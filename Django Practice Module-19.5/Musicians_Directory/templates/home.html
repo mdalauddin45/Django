@@ -18,15 +18,15 @@
     {% for album in data %}
     <tr>
       <th scope="row">{{ album.id }}</th>
-      <td>{{ musician.first_name }} {{musician.last_name }}</td>
-      <td>{{ album.musician.first.email }}</td>
+      <td>{{ album.musician.first_name }} {{ album.musician.last_name }}</td>
+      <td>{{ album.musician.email }}</td>
       <td>{{ album.rating }}</td>
-      <td>{{ album.musician.first.instrument_type}}</td>
+      <td>{{ album.musician.instrument_type }}</td>
       <td>{{ album.album_name }}</td>
       <td>{{ album.album_release_date }}</td>
       <td>
-        <a href="" class="btn btn-danger">Delete</a>
-        <a href="" class="btn btn-warning">Edit</a>
+        <a href={% url 'delete_album' album.pk %} class="btn btn-danger">Delete</a>
+        <a href={% url 'edit_album' album.pk %} class="btn btn-warning">Edit</a>
       </td>
     </tr>
     {% endfor %}
