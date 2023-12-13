@@ -36,10 +36,10 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'musician' %}">Add Musician</a>
               </li>
-              {% comment %} {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'add_post' %}">Add Post</a>
+                <a class="nav-link" href="{% url 'album' %}">Add Album</a>
               </li>
+              {% comment %} {% if user.is_authenticated %}
               {% endif %} {% endcomment %}
             </ul>
             <form class="d-flex" role="search">
