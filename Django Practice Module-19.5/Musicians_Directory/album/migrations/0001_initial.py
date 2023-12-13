@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('album_name', models.CharField(max_length=200)),
                 ('album_release_date', models.DateField()),
                 ('ratting', models.IntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])),
-                ('musicians', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='musician.musician')),
+                ('musician', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='musician.musician')),
             ],
         ),
     ]
