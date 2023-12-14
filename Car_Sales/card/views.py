@@ -8,6 +8,8 @@ from django.shortcuts import get_object_or_404
 from django.views import View
 from django.contrib import messages
 from author.models import Purchase
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -34,7 +36,8 @@ class DetailsPostView(DetailView):
         context['comments']= comments
         context['comment_form']= comment_form
         return context
-
+    
+@method_decorator(login_required, name='dispatch')
 class PurchaseCarView(View):
     def get(self, request, id):
         card = get_object_or_404(Card, id=id)

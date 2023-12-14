@@ -21,6 +21,7 @@
     <img src="{% static 'home.jpg' %}" class="img-fluid" alt="Image" />
   </div>
   <div class="d-flex flex-wrap justify-content-center">
+    <a href="/" class="btn btn-outline-primary m-2 px-4 py-2 ">All</a>
     {% for brand in categories %}
         <div >
             <a href="{% url 'category_wise_post' brand.slug %}" class="btn btn-outline-primary m-2 px-4 py-2 ">{{ brand.name }}</a>
