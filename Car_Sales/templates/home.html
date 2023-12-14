@@ -1,4 +1,29 @@
 {% extends "base.html" %} {% block content %} {% load static %}
 
-<h1>This is home page</h1>
+<div class="row">
+  <div class="col-lg-6 content">
+    <div >
+      <h1 class="text-center">Wellcome To Our </br> Car-Mart</h1>
+      <p>
+        Rogers-based America’s Car-Mart Inc. is expected to see a double-digit
+        decline in earnings and almost flat revenue growth in the fourth quarter
+        of fiscal 2023 as expenses rise and vehicle prices stabilize. For the
+        year, revenue is expected to rise by double digits while earnings fall
+        by double digits. Before the markets open May 24, the buy here, pay here
+        used car dealer is expected to report earnings fell to $1.13 per share
+        in the quarter ending April 30 from $4.01 per share in the same period
+        last year, based on a consensus of three analysts. Revenue is projected
+        to rise by 0.3% to $352.87 million from $351.84 million.
+      </p>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <img src="{% static 'home.jpg' %}" class="img-fluid" alt="Image" />
+  </div>
+  <div>
+    {% for brand in categories %}
+            <a href={% url 'category_wise_post' brand.slug %}>{{ brand.name }}</a>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

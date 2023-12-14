@@ -56,7 +56,8 @@ class UserLogoutView(LogoutView):
 class ProfileView(View):
     def get(self, request):
         return render(request, 'profile.html')
-    
+
+@login_required   
 def edit_profile(request):
     if request.method == 'POST':
         profile_form = forms.ChangeUserForm(request.POST, instance=request.user)
@@ -69,6 +70,7 @@ def edit_profile(request):
         profile_form = forms.ChangeUserForm(instance=request.user)
     return render(request, 'update_profile.html',{'form':profile_form, 'type': 'Profile'})
 
+@login_required
 def passcharnge(request):
     if request.method == 'POST':
         form =PasswordChangeForm(request.user,data=request.POST)
