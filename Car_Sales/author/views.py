@@ -10,6 +10,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from .models import Purchase
 
 # Create your views here.
 class registrationView(CreateView):
@@ -55,7 +56,9 @@ class UserLogoutView(LogoutView):
 @method_decorator(login_required, name='dispatch')
 class ProfileView(View):
     def get(self, request):
-        return render(request, 'profile.html')
+        user_purchases = Purchase.objects.filter(user=request.user)
+        data = [purchase.car for purchase in user_purchases]
+        return render(request, 'profile.html', {'data': data})
 
 @login_required   
 def edit_profile(request):

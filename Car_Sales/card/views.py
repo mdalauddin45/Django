@@ -7,6 +7,7 @@ from .models import Card
 from django.shortcuts import get_object_or_404
 from django.views import View
 from django.contrib import messages
+from author.models import Purchase
 
 
 # Create your views here.
@@ -40,8 +41,14 @@ class PurchaseCarView(View):
         if card.quantity > 0:
             card.quantity -= 1
             card.save()
+            purchase = Purchase.objects.create(user=request.user, car=card)
+            
             messages.success(request, "Buy successfully")
             return redirect('profile')
+            
         else:
             messages.error(request, "Car out of stock!")
-            return redirect('profile') 
+            return redirect('profile')
+
+
+           
