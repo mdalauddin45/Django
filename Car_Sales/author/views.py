@@ -1,11 +1,13 @@
 from typing import Any
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views import View
 from .import forms
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView,LogoutView
 from django.views.generic import CreateView
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
@@ -54,3 +56,28 @@ class UserLogoutView(LogoutView):
 class ProfileView(View):
     def get(self, request):
         return render(request, 'profile.html')
+    
+def edit_profile(request):
+    if request.method == 'POST':
+        profile_form = forms.ChangeUserForm(request.POST, instance=request.user)
+        if profile_form.is_valid():
+            print(profile_form.cleaned_data)
+            profile_form.save()
+            messages.success(request, "Profile Updated successfully")
+            return redirect('profile')
+    else:
+        profile_form = forms.ChangeUserForm(instance=request.user)
+    return render(request, 'update_profile.html',{'form':profile_form, 'type': 'Profile'})
+
+def passcharnge(request):
+    if request.method == 'POST':
+        form =PasswordChangeForm(request.user,data=request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
+            messages.success(request, "Paswrod Changes successfully")
+            update_session_auth_hash(request, form.user)
+            return redirect('profile')
+    else:
+        form = PasswordChangeForm(user=request.user)
+    return render(request, 'passchange.html',{'form':form, 'type': 'Password Form'})
