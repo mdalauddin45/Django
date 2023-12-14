@@ -40,7 +40,9 @@
             </h5>
             <p>Price: {{i.price}} $</p>
             <p> Categiry: {{i.brand}}</p>
-            <p> View Details</p>
+            <p>
+              <a href="{% url 'details_post' i.id %}" class="btn btn-outline-primary m-2 px-4 py-2 ">View Details</a>
+            </p>
           </div>
         </div>
       </div>
