@@ -28,15 +28,25 @@
     {% endfor %} 
 </div>
   <div class="d-flex flex-wrap justify-content-center">
-    {% for card in cards %}
-    <div class="card-item">
-      <img src="{{ card.image.url }}" alt="{{ card.title }}">
-      <h3>{{ card.title }}</h3>
-      <p>{{ card.description }}</p>
-      <p>Price: ${{ card.price }}</p>
-      <!-- Other car details as needed -->
-  </div>
-    {% endfor %} 
+    <div class="row">
+      <h4>{{cards | length }} result found</h4>
+      {% for i in cards %}
+      <div class="col-sm-4 mb-3 mb-sm-0">
+        <div class="card">
+          <img src={{i.image.url}} class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">
+              <a class="card-title text-decoration-none" >{{i.title}}</a>
+            </h5>
+            <p>Price: {{i.price}} $</p>
+            <p> Categiry: {{i.brand}}</p>
+            <p> View Details</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
 </div>
 </div>
 {% endblock %}

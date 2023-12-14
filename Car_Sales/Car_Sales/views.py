@@ -5,7 +5,8 @@ from card.models import Card
 def home(request,category_slug=None):
     cards = Card.objects.all()
     if category_slug is not None:
-        category = Category.objects.get(slug=category_slug)
-        cards = Card.objects.get(category=category)
+        category = Category.objects.filter(slug=category_slug).first()
+        if category:
+            cards = Card.objects.filter(brand=category)
     categories = Category.objects.all()
     return render(request,'home.html',{'categories':categories, 'cards':cards})
