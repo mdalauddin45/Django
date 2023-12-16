@@ -38,7 +38,7 @@ class DetailsPostView(DetailView):
 
 @login_required
 def purchase(request,id):
-    card = get_object_or_404(Card, id=id)
+    card = Card.objects.get(id=id)
     if card.quantity > 0:
             card.quantity -= 1
             card.save()
