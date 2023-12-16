@@ -1,6 +1,5 @@
 from typing import Any
 from django.shortcuts import render,redirect
-from django.views import View
 from .import forms
 from django.contrib import messages
 from django.urls import reverse_lazy
