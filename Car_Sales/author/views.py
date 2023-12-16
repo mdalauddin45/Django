@@ -25,6 +25,7 @@ class registrationView(CreateView):
     def form_invalid(self, form):
         messages.warning(self.request, "Creation Failed")
         return super().form_invalid(form)
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['type']='Registration'
@@ -53,12 +54,12 @@ class UserLogoutView(LogoutView):
         messages.success(self.request, "Logout successfully")
         return reverse_lazy('home')
 
-@method_decorator(login_required, name='dispatch')
-class ProfileView(View):
-    def get(self, request):
-        user_purchases = Purchase.objects.filter(user=request.user)
-        data = [purchase.car for purchase in user_purchases]
-        return render(request, 'profile.html', {'data': data})
+@login_required
+def profile(request):
+    user_purchases = Purchase.objects.filter(user=request.user)
+    data = [purchase.car for purchase in user_purchases]
+    return render(request, 'profile.html',{'data':data})
+
 
 @login_required   
 def edit_profile(request):
