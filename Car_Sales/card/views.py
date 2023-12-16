@@ -1,10 +1,9 @@
 from typing import Any
 from .import forms
-from django.shortcuts import render,redirect
+from django.shortcuts import redirect
 from .import models
 from django.views.generic import DetailView
 from .models import Card
-from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from author.models import Purchase
 from django.contrib.auth.decorators import login_required
