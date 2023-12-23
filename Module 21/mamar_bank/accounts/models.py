@@ -18,3 +18,10 @@ class UserBankAccount(models.Model):
     gender = models.CharField(max_length=10, choices=GENDER_TYPE)
     initial_deposit_date = models.DateField(auto_now_add=True)
     balance = models.DecimalField(default=0, decimal_places=2,max_digits=12)
+
+class UserAdderss(models.Model):
+    user = models.OneToOneField(User, related_name='address', on_delete=models.CASCADE)
+    street_address = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    postal_code = models.IntegerField()
+    country = models.CharField(max_length=100)
