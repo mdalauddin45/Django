@@ -7,7 +7,8 @@ from .models import UserBankAccount, UserAdderss
 
 class UserRegistrationForm(UserCreationForm):
     birth_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
-    gender = forms.CharField(max_length=10, choices=GENDER_TYPE)
+    gender = forms.ChoiceField(choices=GENDER_TYPE)
+    account_type = forms.ChoiceField(choices=ACCOUNT_TYPE)
     street_address = forms.CharField(max_length=100)
     city = forms.CharField(max_length=100)
     postal_code = forms.IntegerField()
@@ -15,7 +16,7 @@ class UserRegistrationForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ['username','password1','password2','first_name','last_name','email','city','street_address','account_type','birth_date' ,'gender','postal_code','country']
+        fields = ['username','password1','password2','first_name','last_name','email','city','street_address','account_type','birth_date' ,'gender','postal_code','country','account_type']
     def save(self, commit=True):
         our_user = super().save(commit=False)
         if commit == True:
