@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.0.1/dist/tailwind.min.css">
-</head>
-<body>
-    {% if form.non_field_errors %} {% for error in form.non_field_errors %}
+{% extends 'base.html' %} {% load static %} {% block head_title %}Banking System{% endblock %} {% block content %} 
+
+{% if form.non_field_errors %} {% for error in form.non_field_errors %}
 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2" role="alert">
     <p class="font-bold">Error!</p>
     <p class="block sm:inline">{{ error }}</p>
@@ -137,8 +130,4 @@
         </form>
     </div>
 </div>
-</body>
-</html>
-{% comment %} {% extends 'base.html' %} {% load static %} {% block head_title %}Banking System{% endblock %} {% block content %}  {% endcomment %}
-
-{% comment %} {% endblock %} {% endcomment %}
+{% endblock %}
