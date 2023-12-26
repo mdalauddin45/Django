@@ -1,5 +1,5 @@
 from django import forms
-from .models import Transaction
+from .models import Transaction , MoneyTransaction
 class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
@@ -9,19 +9,41 @@ class TransactionForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        self.account = kwargs.pop('account') # account value ke pop kore anlam
+        self.account = kwargs.pop('account') 
         super().__init__(*args, **kwargs)
-        self.fields['transaction_type'].disabled = True # ei field disable thakbe
-        self.fields['transaction_type'].widget = forms.HiddenInput() # user er theke hide kora thakbe
+        self.fields['transaction_type'].disabled = True 
+        self.fields['transaction_type'].widget = forms.HiddenInput() 
 
     def save(self, commit=True):
         self.instance.account = self.account
         self.instance.balance_after_transaction = self.account.balance
         return super().save()
+    
+class MoneyTransactionForm(forms.ModelForm):
+    class Meta:
+        model = MoneyTransaction
+        fields = [
+            'account_no',
+            'amount',
+        ]
+
+    def clean_amount(self):
+        amount = self.cleaned_data.get('amount')
+        # Your validation logic for the transaction amount can be added here
+        # For example, ensuring the amount is positive, etc.
+        return amount
+
+    def save(self, commit=True):
+        # This is assuming you have an 'account' attribute passed to the form
+        account = self.account
+        instance = super().save(commit=False)
+        instance.balance_after_transaction = account.balance + instance.amount
+        instance.save()
+        return instance
 
 
 class DepositForm(TransactionForm):
-    def clean_amount(self): # amount field ke filter korbo
+    def clean_amount(self): 
         min_deposit_amount = 100
         amount = self.cleaned_data.get('amount') # user er fill up kora form theke amra amount field er value ke niye aslam, 50
         if amount < min_deposit_amount:
@@ -38,7 +60,7 @@ class WithdrawForm(TransactionForm):
         account = self.account
         min_withdraw_amount = 500
         max_withdraw_amount = 20000
-        balance = account.balance # 1000
+        balance = account.balance
         amount = self.cleaned_data.get('amount')
         if amount < min_withdraw_amount:
             raise forms.ValidationError(
@@ -65,3 +87,4 @@ class LoanRequestForm(TransactionForm):
         amount = self.cleaned_data.get('amount')
 
         return amount
+        

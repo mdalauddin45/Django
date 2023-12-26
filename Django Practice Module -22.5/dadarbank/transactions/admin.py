@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # from transactions.models import Transaction
-from .models import Transaction
+from .models import Transaction, MoneyTransaction
+admin.site.register(MoneyTransaction)
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ['account', 'amount', 'balance_after_transaction', 'transaction_type', 'loan_approve']

@@ -1,20 +1,23 @@
 from django.contrib import messages
+from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 from django.http import HttpResponse
-from django.views.generic import CreateView, ListView
-from transactions.constants import DEPOSIT, WITHDRAWAL,LOAN, LOAN_PAID
+from django.views.generic import CreateView, ListView, FormView
+from transactions.constants import DEPOSIT, WITHDRAWAL,LOAN, LOAN_PAID,MONEY_TRANSFER
 from datetime import datetime
 from django.db.models import Sum
+from accounts.models import UserBankAccount
 from transactions.forms import (
     DepositForm,
     WithdrawForm,
     LoanRequestForm,
+    MoneyTransactionForm
 )
-from transactions.models import Transaction
+from transactions.models import Transaction,MoneyTransaction
 
 class TransactionCreateMixin(LoginRequiredMixin, CreateView):
     template_name = 'transactions/transaction_form.html'
@@ -30,7 +33,7 @@ class TransactionCreateMixin(LoginRequiredMixin, CreateView):
         return kwargs
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs) # template e context data pass kora
+        context = super().get_context_data(**kwargs) 
         context.update({
             'title': self.title
         })
@@ -181,3 +184,81 @@ class LoanListView(LoginRequiredMixin,ListView):
         queryset = Transaction.objects.filter(account=user_account,transaction_type=3)
         print(queryset)
         return queryset
+
+class MoneyTransferView(LoginRequiredMixin, FormView ):
+    template_name = 'transactions/money_tansfer.html'
+    form_class = MoneyTransaction
+    success_url = reverse_lazy('home') 
+
+    def get_initial(self):
+        initial = {'transaction_type': MONEY_TRANSFER}
+        return initial
+
+    def form_valid(self, form):
+        account_no = form.cleaned_data.get('account_no')
+        amount = form.cleaned_data.get('amount')
+
+        recipient_account = get_object_or_404(UserBankAccount, account_number=account_no)
+
+        if recipient_account:
+            if self.request.user.account.balance >= amount:
+                self.request.user.account.balance -= amount
+                self.request.user.account.save(update_fields=['balance'])
+
+                recipient_account.balance += amount
+                recipient_account.save(update_fields=['balance'])
+
+                messages.success(
+                    self.request,
+                    f'Successfully transferred {"{:,.2f}".format(float(amount))}$ to account {account_no}'
+                )
+                return super().form_valid(form)
+            else:
+                messages.error(
+                    self.request,
+                    'Insufficient balance to perform this transfer.'
+                )
+        else:
+            messages.error(
+                self.request,
+                f'Account number {account_no} not found.'
+            )
+
+        return self.form_invalid(form)
+    # def get(self, request):
+    #     form = MoneyTransactionForm()
+    #     return render(request, 'transactions/transaction_form.html', {'form': form})
+
+    # def post(self, request):
+    #     form = MoneyTransactionForm(request.POST)
+    #     if form.is_valid():
+    #         account_no = form.cleaned_data.get('account_no')
+    #         amount = form.cleaned_data.get('amount')
+
+    #         # Get the sender's account
+    #         sender_account = request.user.account
+
+    #         # Check if the recipient account exists
+    #         recipient_account = get_object_or_404(UserBankAccount, account_number=account_no)
+
+    #         # Perform the money transfer
+    #         if amount > 0 and sender_account.balance >= amount:
+    #             sender_account.balance -= amount
+    #             recipient_account.balance += amount
+
+    #             # Save changes to both sender and recipient accounts
+    #             sender_account.save()
+    #             recipient_account.save()
+
+    #             # Create a money transaction record
+    #             MoneyTransaction.objects.create(
+    #                 account_no=account_no,
+    #                 amount=amount
+    #             )
+
+    #             messages.success(request, f'Successfully transferred {amount}$ to {account_no}')
+    #             return redirect('money_transfer')  # Redirect to the same page after successful transfer
+    #         else:
+    #             messages.error(request, 'Invalid transfer amount or insufficient balance')
+
+    #     return render(request, 'transactions/money_transfer.html', {'form': form})

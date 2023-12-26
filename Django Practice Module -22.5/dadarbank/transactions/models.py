@@ -14,3 +14,7 @@ class Transaction(models.Model):
     
     class Meta:
         ordering = ['timestamp'] 
+
+class MoneyTransaction(models.Model):
+    account_no = models.IntegerField()
+    amount = models.DecimalField(decimal_places=2, max_digits=12)
