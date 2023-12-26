@@ -99,8 +99,6 @@ class WithdrawMoneyView(TransactionCreateMixin):
         amount = form.cleaned_data.get('amount')
 
         self.request.user.account.balance -= form.cleaned_data.get('amount')
-        # balance = 300
-        # amount = 5000
         self.request.user.account.save(update_fields=['balance'])
 
         messages.success(
@@ -154,7 +152,7 @@ class TransactionReportView(LoginRequiredMixin, ListView):
         else:
             self.balance = self.request.user.account.balance
        
-        return queryset.distinct() # unique queryset hote hobe
+        return queryset.distinct() 
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
