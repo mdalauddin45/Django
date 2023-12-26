@@ -171,17 +171,14 @@ class PayLoanView(LoginRequiredMixin, View):
         print(loan)
         if loan.loan_approve:
             user_account = loan.account
-                # Reduce the loan amount from the user's balance
-                # 5000, 500 + 5000 = 5500
-                # balance = 3000, loan = 5000
             if loan.amount < user_account.balance:
                 user_account.balance -= loan.amount
                 loan.balance_after_transaction = user_account.balance
                 user_account.save()
-                loan.loan_approved = True
+                loan.loan_approve = True
                 loan.transaction_type = LOAN_PAID
                 loan.save()
-                return redirect('transactions:loan_list')
+                return redirect('home')
             else:
                 messages.error(
             self.request,
