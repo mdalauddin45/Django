@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import UserBankAccount
-from .constance import TRANSACTION_TYPE
+from .constants import TRANSACTION_TYPE
 
 # Create your models here.
 class Transaction(models.Model):

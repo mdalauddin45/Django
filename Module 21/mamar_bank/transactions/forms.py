@@ -27,13 +27,14 @@ class DepositForm(Transaction):
             )
         return amount
 
+#transactionform ta sob kany inherit kory kaj kora holo
 class WithdrawForm(TransactionForm):
 
     def clean_amount(self):
         account = self.account
         min_withdraw_amount = 500
         max_withdraw_amount = 20000
-        balance = account.balance # 1000
+        balance = account.balance
         amount = self.cleaned_data.get('amount')
         if amount < min_withdraw_amount:
             raise forms.ValidationError(
@@ -45,7 +46,7 @@ class WithdrawForm(TransactionForm):
                 f'You can withdraw at most {max_withdraw_amount} $'
             )
 
-        if amount > balance: # amount = 5000, tar balance ache 200
+        if amount > balance: 
             raise forms.ValidationError(
                 f'You have {balance} $ in your account. '
                 'You can not withdraw more than your account balance'
