@@ -10,7 +10,7 @@ from django.views import View
 class UserRegistrationView(FormView):
     template_name = 'accounts/user_registration.html'
     form_class = UserRegistrationForm
-    success_url = reverse_lazy('register')
+    success_url = reverse_lazy('profile')
     
     def form_valid(self,form):
         print(form.cleaned_data)
@@ -22,7 +22,7 @@ class UserRegistrationView(FormView):
 class UserLoinView(LoginView):
     template_name = 'accounts/user_login.html'
     def get_success_url(self):
-        return reverse_lazy('home')
+        return reverse_lazy('profile')
 
 class UserLogoutView(LogoutView):
     def get_success_url(self):
