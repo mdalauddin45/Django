@@ -14,11 +14,19 @@ from django.db.models import Sum
 from transactions.forms import (
     DepositForm,
     WithdrawForm,
-    LoanRequestForm
+    LoanRequestForm,
 )
 from transactions.models import Transaction
 
-# Create your views here.
+def send_transaction_email(user, amount, subject, template):
+        message = render_to_string(template, {
+            'user' : user,
+            'amount' : amount,
+        })
+        send_email = EmailMultiAlternatives(subject, '', to=[user.email])
+        send_email.attach_alternative(message, "text/html")
+        send_email.send()
+
 class TransactionCreateMixin(LoginRequiredMixin, CreateView):
     template_name = 'transactions/transaction_form.html'
     model = Transaction
@@ -82,6 +90,8 @@ class WithdrawMoneyView(TransactionCreateMixin):
         amount = form.cleaned_data.get('amount')
 
         self.request.user.account.balance -= form.cleaned_data.get('amount')
+        # balance = 300
+        # amount = 5000
         self.request.user.account.save(update_fields=['balance'])
 
         messages.success(
@@ -90,7 +100,7 @@ class WithdrawMoneyView(TransactionCreateMixin):
         )
         # send_transaction_email(self.request.user, amount, "Withdrawal Message", "transactions/withdrawal_email.html")
         return super().form_valid(form)
-    
+
 class LoanRequestView(TransactionCreateMixin):
     form_class = LoanRequestForm
     title = 'Request For Loan'
@@ -159,10 +169,10 @@ class PayLoanView(LoginRequiredMixin, View):
                 user_account.balance -= loan.amount
                 loan.balance_after_transaction = user_account.balance
                 user_account.save()
-                loan.loan_approved = True
+                loan.loan_approve = True
                 loan.transaction_type = LOAN_PAID
                 loan.save()
-                return redirect('transactions:loan_list')
+                return redirect('home')
             else:
                 messages.error(
             self.request,
