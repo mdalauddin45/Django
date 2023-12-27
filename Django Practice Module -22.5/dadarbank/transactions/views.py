@@ -15,9 +15,9 @@ from transactions.forms import (
     DepositForm,
     WithdrawForm,
     LoanRequestForm,
-    MoneyTransactionForm
+    MoneyTransferForm
 )
-from transactions.models import Transaction,MoneyTransaction
+from transactions.models import Transaction
 
 class TransactionCreateMixin(LoginRequiredMixin, CreateView):
     template_name = 'transactions/transaction_form.html'
@@ -185,80 +185,40 @@ class LoanListView(LoginRequiredMixin,ListView):
         print(queryset)
         return queryset
 
-class MoneyTransferView(LoginRequiredMixin, FormView ):
-    template_name = 'transactions/money_tansfer.html'
-    form_class = MoneyTransaction
-    success_url = reverse_lazy('home') 
+# class MoneyTransferView(FormView):
+#     template_name = 'transactions/money_tansfer.html'
+#     form_class = MoneyTransferForm
+#     success_url = reverse_lazy('transaction_report')
 
-    def get_initial(self):
-        initial = {'transaction_type': MONEY_TRANSFER}
-        return initial
+#     def form_valid(self, form):
+#         result = form.save()
+#         if result:
+#             return HttpResponse(result) 
+#         else:
+#             return HttpResponse("An error occurred during the transfer.")
 
-    def form_valid(self, form):
-        account_no = form.cleaned_data.get('account_no')
-        amount = form.cleaned_data.get('amount')
+def money_transfer_view(request):
+    if request.method == 'POST':
+        form = MoneyTransferForm(request.POST)
 
-        recipient_account = get_object_or_404(UserBankAccount, account_number=account_no)
+        if form.is_valid():
+            transaction = form.save(commit=False)
+            sender_account = form.cleaned_data['sender_account']
+            receiver_account = form.cleaned_data['receiver_account']
+            amount = form.cleaned_data['amount']
 
-        if recipient_account:
-            if self.request.user.account.balance >= amount:
-                self.request.user.account.balance -= amount
-                self.request.user.account.save(update_fields=['balance'])
+            transaction.balance_after_transaction = sender_account.balance_after_transaction - amount
+            transaction.transaction_type = 1  # Money Transfer
+            transaction.save()
 
-                recipient_account.balance += amount
-                recipient_account.save(update_fields=['balance'])
+            
+            # Additional logic as needed, e.g., updating sender and receiver accounts
 
-                messages.success(
-                    self.request,
-                    f'Successfully transferred {"{:,.2f}".format(float(amount))}$ to account {account_no}'
-                )
-                return super().form_valid(form)
-            else:
-                messages.error(
-                    self.request,
-                    'Insufficient balance to perform this transfer.'
-                )
-        else:
-            messages.error(
-                self.request,
-                f'Account number {account_no} not found.'
-            )
+            # send_transaction_email(sender_account.email, receiver_account.email, amount)
 
-        return self.form_invalid(form)
-    # def get(self, request):
-    #     form = MoneyTransactionForm()
-    #     return render(request, 'transactions/transaction_form.html', {'form': form})
+            return redirect('home')
 
-    # def post(self, request):
-    #     form = MoneyTransactionForm(request.POST)
-    #     if form.is_valid():
-    #         account_no = form.cleaned_data.get('account_no')
-    #         amount = form.cleaned_data.get('amount')
+    else:
+        form = MoneyTransferForm(user=request.user)
 
-    #         # Get the sender's account
-    #         sender_account = request.user.account
-
-    #         # Check if the recipient account exists
-    #         recipient_account = get_object_or_404(UserBankAccount, account_number=account_no)
-
-    #         # Perform the money transfer
-    #         if amount > 0 and sender_account.balance >= amount:
-    #             sender_account.balance -= amount
-    #             recipient_account.balance += amount
-
-    #             # Save changes to both sender and recipient accounts
-    #             sender_account.save()
-    #             recipient_account.save()
-
-    #             # Create a money transaction record
-    #             MoneyTransaction.objects.create(
-    #                 account_no=account_no,
-    #                 amount=amount
-    #             )
-
-    #             messages.success(request, f'Successfully transferred {amount}$ to {account_no}')
-    #             return redirect('money_transfer')  # Redirect to the same page after successful transfer
-    #         else:
-    #             messages.error(request, 'Invalid transfer amount or insufficient balance')
-
-    #     return render(request, 'transactions/money_transfer.html', {'form': form})
+    return render(request, 'transactions/money_tansfer.html', {'form': form})
