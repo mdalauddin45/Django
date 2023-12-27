@@ -15,9 +15,9 @@ from transactions.forms import (
     DepositForm,
     WithdrawForm,
     LoanRequestForm,
-    MoneyTransferForm
+    MoneyTransactionForm
 )
-from transactions.models import Transaction
+from transactions.models import Transaction, MoneyTransaction
 
 class TransactionCreateMixin(LoginRequiredMixin, CreateView):
     template_name = 'transactions/transaction_form.html'
@@ -93,6 +93,64 @@ class WithdrawMoneyView(TransactionCreateMixin):
 
         return super().form_valid(form)
 
+# class MoneyView(TransactionCreateMixin):
+#     form_class = MoneyTransferForm
+#     title = "Money Transfer"
+#     def get_initial(self):
+#         initial = {'transaction_type': MONEY_TRANSFER}
+#         return initial
+#     def form_valid(self, form):
+#         amount = form.cleaned_data.get('amount')
+
+#         self.request.user.account.balance -= form.cleaned_data.get('amount')
+#         self.request.user.account.save(update_fields=['balance'])
+#         account = self.request.user.account
+#         account.balance += amount
+#         account.save(
+#             update_fields=[
+#                 'balance'
+#             ]
+#         )
+
+#         messages.success(
+#             self.request,
+#             f'Successfully {"{:,.2f}".format(float(amount))}$ Transfer from your account'
+#         )
+
+#         return super().form_valid(form)
+class MoneyView(FormView):
+    template_name = 'transactions/money_tansfer.html'
+    form_class = MoneyTransactionForm  # Use the correct form class
+    success_url = 'home'  # Change this to your desired success URL
+    title = "Money Transfer"
+
+    def form_valid(self, form):
+        sender_account = self.request.user.account
+        receiver_account = form.cleaned_data['receiver_account']
+        amount = form.cleaned_data['amount']
+        sender_account.balance -= amount
+        sender_account.save(update_fields=['balance'])
+
+        # Create a MoneyTransaction for the transfer
+        MoneyTransaction.objects.create(
+            sender_account=sender_account,
+            receiver_account=receiver_account,
+            amount=amount,
+            balance_after_transaction=sender_account.balance,
+            transaction_type=5  
+        )
+
+        # Update receiver's account balance
+        receiver_account.balance += amount
+        receiver_account.save(update_fields=['balance'])
+
+        messages.success(
+            self.request,
+            f'Successfully transferred {"{:,.2f}".format(float(amount))}$ to {receiver_account.user.username}'
+        )
+
+        return redirect(self.get_success_url())
+    
 class LoanRequestView(TransactionCreateMixin):
     form_class = LoanRequestForm
     title = 'Request For Loan'
@@ -197,28 +255,3 @@ class LoanListView(LoginRequiredMixin,ListView):
 #         else:
 #             return HttpResponse("An error occurred during the transfer.")
 
-def money_transfer_view(request):
-    if request.method == 'POST':
-        form = MoneyTransferForm(request.POST)
-
-        if form.is_valid():
-            transaction = form.save(commit=False)
-            sender_account = form.cleaned_data['sender_account']
-            receiver_account = form.cleaned_data['receiver_account']
-            amount = form.cleaned_data['amount']
-
-            transaction.balance_after_transaction = sender_account.balance_after_transaction - amount
-            transaction.transaction_type = 1  # Money Transfer
-            transaction.save()
-
-            
-            # Additional logic as needed, e.g., updating sender and receiver accounts
-
-            # send_transaction_email(sender_account.email, receiver_account.email, amount)
-
-            return redirect('home')
-
-    else:
-        form = MoneyTransferForm(user=request.user)
-
-    return render(request, 'transactions/money_tansfer.html', {'form': form})

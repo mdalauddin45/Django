@@ -1,5 +1,6 @@
 from django import forms
 from .models import Transaction, MoneyTransaction
+from django.contrib.auth.models import User
 class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
@@ -18,7 +19,39 @@ class TransactionForm(forms.ModelForm):
         self.instance.account = self.account
         self.instance.balance_after_transaction = self.account.balance
         return super().save()
+    
+class MoneyTransactionForm(forms.ModelForm):
+    class Meta:
+        model = MoneyTransaction
+        fields = [
+            'receiver_account',
+            'amount',
+            'transaction_type', 
+        ]
 
+    def __init__(self, *args, **kwargs):
+        self.account = kwargs.pop('account') 
+        super().__init__(*args, **kwargs)
+        self.fields['transaction_type'].disabled = True 
+        self.fields['transaction_type'].widget = forms.HiddenInput() 
+
+    def save(self, commit=True):
+        self.instance.account = self.account
+        self.instance.balance_after_transaction = self.account.balance
+        return super().save()
+    
+class MoneyForm(MoneyTransactionForm):
+    def clean_amount(self):
+        sender_account = self.sender_account
+        reciver_account = self.cleaned_data.get('receiver_account')
+        sender_balance = sender_account.balance
+        reciver_balance = reciver_account.balance
+        amount = self.cleaned_data.get('amount')
+        
+        print("Amount:", amount)
+        
+        return amount
+        
 class DepositForm(TransactionForm):
     def clean_amount(self): 
         min_deposit_amount = 100
@@ -59,7 +92,3 @@ class LoanRequestForm(TransactionForm):
         amount = self.cleaned_data.get('amount')
 
         return amount
-class MoneyTransferForm(forms.ModelForm):
-    class Meta:
-        model = MoneyTransaction
-        fields = ['amount', 'receiver_account']

@@ -15,9 +15,8 @@ class Transaction(models.Model):
         ordering = ['timestamp'] 
 
 class MoneyTransaction(models.Model):
-    sender_account = models.ForeignKey(UserBankAccount, related_name='sent_transactions', on_delete=models.CASCADE)
-    receiver_account = models.ForeignKey(UserBankAccount, related_name='received_transactions', on_delete=models.CASCADE)
+    sender_account = models.ForeignKey(UserBankAccount, related_name='sender_account', on_delete=models.CASCADE)
+    receiver_account = models.ForeignKey(UserBankAccount, related_name='receiver_account', on_delete=models.CASCADE)
     amount = models.DecimalField(decimal_places=2, max_digits=12)
     balance_after_transaction = models.DecimalField(decimal_places=2, max_digits=12)
-    transaction_type = models.IntegerField(choices=[(1, 'Money Transfer')])  # Adjust choices as needed
-    timestamp = models.DateTimeField(auto_now_add=True)
+    transaction_type = models.IntegerField(choices=TRANSACTION_TYPE, null = True)
