@@ -194,6 +194,7 @@ class LoanListView(LoginRequiredMixin,ListView):
 class MoneyTransferView(FormView):
     template_name = 'transactions/transfer_form.html'
     form_class = MoneyTransferForm
+    title='Money transfer'
     success_url = reverse_lazy('money_transfer')
 
     def form_valid(self, form):
@@ -201,18 +202,32 @@ class MoneyTransferView(FormView):
         recipient_account_no = form.cleaned_data['recipient_account_no']
         transfer_amount = form.cleaned_data['transfer_amount']
         recipient_account = UserBankAccount.objects.filter(account_no=recipient_account_no).first()
-
         account = self.request.user.account
         
-        if account.is_bankrupt:
-            messages.error(self.request, "Sorry, Money Transfer are not allowed for bankrupt accounts.")
-            return self.form_invalid(form)
         
-        if not recipient_account:
-            form.add_error('recipient_account_no', 'Recipient account does not exist.')
+        if account.is_bankrupt:
+            messages.error(self.request, "Sorry, Money Transfer are not allowed Dadar bank is bankrupt.")
             return self.form_invalid(form)
+          
+        if not recipient_account:
+            messages.error(
+                self.request,
+                f'recipient_account_no', 'Recipient account does not exist.'
+            )
+            return self.form_invalid(form)
+        else:
+            messages.success(
+                self.request,
+                f'Successfully sent {"{:,.2f}".format(float(transfer_amount))}$ from your account'
+            )
+            sender_account.money_transfer(recipient_account, transfer_amount)
 
-        # Perform the money transfer
-        sender_account.money_transfer(recipient_account, transfer_amount)
         return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) 
+        context.update({
+            'title': self.title
+        })
+
+        return context
 
