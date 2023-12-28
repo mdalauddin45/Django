@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %} {% load static %} {% load crispy_forms_tags %}
+<form method="POST" enctype="multipart/form-data">
+    <h4 class="font-bold text-3xl text-left pb-5">Account NO: {{request.user.account.account_no}}</h4>
+    <h1 class="font-bold text-3xl text-center pb-5">Update Profile Information</h1>
+    {% comment %} <a class="btn btn-warning btn-sm mt-4 mb-4" href="{% url 'passcharnge' %}">Change Your Password</a> {% endcomment %}
+    <br /> 
+    {% csrf_token %}
+    <!--{{form | crispy}}-->
+    {% if form.non_field_errors %}
+    {% for er in form.non_field_errors %}
+    <p class="text-danger">{{er}}</p>
+
+    {% endfor %}
+    {% endif %}
+    {% for fm in form%}
+    {{fm.label_tag}}
+    {{fm}}
+    {{fm.errors | striptags}}
+    {% endfor %}
+    <br>
+    <button type="submit" class="btn btn-warning text-white">Submit</button>
+</form>
+{% endblock %}

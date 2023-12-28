@@ -43,13 +43,15 @@
               {% endif %} {% endcomment %}
             </ul>
             <form class="d-flex" role="search">
-              {% comment %} {% if user.is_authenticated %}
+              {% if user.is_authenticated %}
+              <p class="text-blue-900 my-auto font-black px-5">Welcome, {{ request.user.first_name }} (balance : {{request.user.account.balance}}) </p>
+              <a class="btn btn-outline-success mx-4" href="{% url 'money_transfer' %}">Money Transfer</a>
               <a class="btn btn-outline-success mx-4" href="{% url 'profile' %}">Profile</a>
               <a class="btn btn-outline-danger" href="{% url 'logout' %}">Log Out</a>
               {% else %}
               <a class=" btn btn-outline-danger mx-2" href="{% url 'register' %}">Registration</a>
               <a class="btn btn-outline-primary" href="{% url 'login' %}">login</a>
-              {% endif %} {% endcomment %}
+              {% endif %}
             </form>
           </div>
         </div>
