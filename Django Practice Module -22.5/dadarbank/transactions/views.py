@@ -206,21 +206,28 @@ class MoneyTransferView(FormView):
         
         
         if account.is_bankrupt:
-            messages.error(self.request, "Sorry, Money Transfer are not allowed Dadar bank is bankrupt.")
+            messages.error(self.request, "Sorry, Money Transfer is not allowed. Dadar bank is bankrupt.")
             return self.form_invalid(form)
-          
+
         if not recipient_account:
             messages.error(
                 self.request,
-                f'recipient_account_no', 'Recipient account does not exist.'
+                'Recipient account does not exist.'
             )
             return self.form_invalid(form)
-        else:
-            messages.success(
+        
+        if sender_account.balance < transfer_amount:
+            messages.error(
                 self.request,
-                f'Successfully sent {"{:,.2f}".format(float(transfer_amount))}$ from your account'
+                'Insufficient balance. Transfer amount exceeds available balance.'
             )
-            sender_account.money_transfer(recipient_account, transfer_amount)
+            return self.form_invalid(form)
+        
+        sender_account.money_transfer(recipient_account, transfer_amount)
+        messages.success(
+            self.request,
+            f'Successfully sent {"{:,.2f}".format(float(transfer_amount))}$ from your account'
+        )
 
         return super().form_valid(form)
     def get_context_data(self, **kwargs):
