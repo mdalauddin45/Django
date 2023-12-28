@@ -52,15 +52,12 @@ class DepositMoneyView(TransactionCreateMixin):
     def form_valid(self, form):
         amount = form.cleaned_data.get('amount')
         account = self.request.user.account
-        # if not account.initial_deposit_date:
-        #     now = timezone.now()
-        #     account.initial_deposit_date = now
-        account.balance += amount # amount = 200, tar ager balance = 0 taka new balance = 0+200 = 200
-        account.save(
-            update_fields=[
-                'balance'
-            ]
-        )
+        if account.is_bankrupt: 
+            messages.error(self.request, "Sorry, deposits are not allowed for bankrupt accounts.")
+            return self.form_invalid(form)
+
+        account.balance += amount
+        account.save(update_fields=['balance'])
 
         messages.success(
             self.request,
@@ -80,16 +77,22 @@ class WithdrawMoneyView(TransactionCreateMixin):
 
     def form_valid(self, form):
         amount = form.cleaned_data.get('amount')
+        account = self.request.user.account
+        
+        if account.is_bankrupt:  
+            messages.error(self.request, "Sorry, withdrawals are not allowed for bankrupt accounts.")
+            return self.form_invalid(form)
 
-        self.request.user.account.balance -= form.cleaned_data.get('amount')
-        # balance = 300
-        # amount = 5000
-        self.request.user.account.save(update_fields=['balance'])
+        if account.balance >= amount:  
+            account.balance -= amount
+            account.save(update_fields=['balance'])
 
-        messages.success(
-            self.request,
-            f'Successfully withdrawn {"{:,.2f}".format(float(amount))}$ from your account'
-        )
+            messages.success(
+                self.request,
+                f'Successfully withdrawn {"{:,.2f}".format(float(amount))}$ from your account'
+            )
+        else:
+            messages.error(self.request, "Insufficient balance for withdrawal.")
 
         return super().form_valid(form)
     
@@ -103,14 +106,20 @@ class LoanRequestView(TransactionCreateMixin):
 
     def form_valid(self, form):
         amount = form.cleaned_data.get('amount')
-        current_loan_count = Transaction.objects.filter(
-            account=self.request.user.account,transaction_type=3,loan_approve=True).count()
-        if current_loan_count >= 3:
-            return HttpResponse("You have cross the loan limits")
-        messages.success(
-            self.request,
-            f'Loan request for {"{:,.2f}".format(float(amount))}$ submitted successfully'
-        )
+        account = self.request.user.account
+        
+        if account.is_bankrupt:
+            messages.error(self.request, "Sorry, loan request are not allowed for bankrupt accounts.")
+            return self.form_invalid(form)
+        else:
+            current_loan_count = Transaction.objects.filter(
+                account=self.request.user.account,transaction_type=3,loan_approve=True).count()
+            if current_loan_count >= 3:
+                return HttpResponse("You have cross the loan limits")
+            messages.success(
+                self.request,
+                f'Loan request for {"{:,.2f}".format(float(amount))}$ submitted successfully'
+            )
 
         return super().form_valid(form)
     
@@ -154,9 +163,6 @@ class PayLoanView(LoginRequiredMixin, View):
         print(loan)
         if loan.loan_approve:
             user_account = loan.account
-                # Reduce the loan amount from the user's balance
-                # 5000, 500 + 5000 = 5500
-                # balance = 3000, loan = 5000
             if loan.amount < user_account.balance:
                 user_account.balance -= loan.amount
                 loan.balance_after_transaction = user_account.balance
@@ -194,9 +200,14 @@ class MoneyTransferView(FormView):
         sender_account = UserBankAccount.objects.get(user=self.request.user)  # Assuming sender is the logged-in user
         recipient_account_no = form.cleaned_data['recipient_account_no']
         transfer_amount = form.cleaned_data['transfer_amount']
-
         recipient_account = UserBankAccount.objects.filter(account_no=recipient_account_no).first()
 
+        account = self.request.user.account
+        
+        if account.is_bankrupt:
+            messages.error(self.request, "Sorry, Money Transfer are not allowed for bankrupt accounts.")
+            return self.form_invalid(form)
+        
         if not recipient_account:
             form.add_error('recipient_account_no', 'Recipient account does not exist.')
             return self.form_invalid(form)
