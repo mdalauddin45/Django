@@ -105,7 +105,7 @@ class WithdrawMoneyView(TransactionCreateMixin):
             )
         else:
             messages.error(self.request, "Insufficient balance for withdrawal.")
-
+        send_transaction_email(self.request.user,amount,"Withdraw Message", 'transactions/withdraw_email.html' )
         return super().form_valid(form)
     
 class LoanRequestView(TransactionCreateMixin):
@@ -133,6 +133,7 @@ class LoanRequestView(TransactionCreateMixin):
                 f'Loan request for {"{:,.2f}".format(float(amount))}$ submitted successfully'
             )
 
+        send_transaction_email(self.request.user,amount,"Loan Request Message", 'transactions/loan_email.html' )
         return super().form_valid(form)
     
 class TransactionReportView(LoginRequiredMixin, ListView):
@@ -210,38 +211,37 @@ class MoneyTransferView(FormView):
     success_url = reverse_lazy('money_transfer')
 
     def form_valid(self, form):
-        sender_account = UserBankAccount.objects.get(user=self.request.user)  # Assuming sender is the logged-in user
-        recipient_account_no = form.cleaned_data['recipient_account_no']
-        transfer_amount = form.cleaned_data['transfer_amount']
+        sender_account = UserBankAccount.objects.get(user=self.request.user)
+        recipient_account_no = form.cleaned_data.get('recipient_account_no')
+        transfer_amount = form.cleaned_data.get('transfer_amount')
         recipient_account = UserBankAccount.objects.filter(account_no=recipient_account_no).first()
         account = self.request.user.account
-        
-        
+
         if account.is_bankrupt:
             messages.error(self.request, "Sorry, Money Transfer is not allowed. Dadar bank is bankrupt.")
             return self.form_invalid(form)
 
         if not recipient_account:
-            messages.error(
-                self.request,
-                'Recipient account does not exist.'
-            )
+            messages.error(self.request, 'Recipient account does not exist.')
             return self.form_invalid(form)
-        
+
         if sender_account.balance < transfer_amount:
-            messages.error(
-                self.request,
-                'Insufficient balance. Transfer amount exceeds available balance.'
-            )
+            messages.error(self.request, 'Insufficient balance. Transfer amount exceeds available balance.')
             return self.form_invalid(form)
-        
+
         sender_account.money_transfer(recipient_account, transfer_amount)
-        messages.success(
-            self.request,
-            f'Successfully sent {"{:,.2f}".format(float(transfer_amount))}$ from your account'
-        )
+
+        sender_message = f'Successfully sent {"{:,.2f}".format(float(transfer_amount))}$ from your account.'
+        # recipient_message = f'Received {"{:,.2f}".format(float(transfer_amount))}$ in your account.'
+
+        messages.success(self.request, sender_message)
+        # messages.success(self.request, recipient_message)
+
+        send_transaction_email(sender_account.user, transfer_amount, "Money Transfer Sent", 'transactions/money_transfer_mail.html')
+        send_transaction_email(recipient_account.user, transfer_amount, "Money Transfer Received", 'transactions/money_recived_mail.html')
 
         return super().form_valid(form)
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         context.update({
