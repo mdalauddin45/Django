@@ -1,8 +1,7 @@
 from django.contrib import admin
 
 # from transactions.models import Transaction
-from .models import Transaction ,MoneyTransaction
-admin.site.register(MoneyTransaction)
+from .models import Transaction 
 # admin.site.register(MoneyTransaction)
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):

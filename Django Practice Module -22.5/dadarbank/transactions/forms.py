@@ -1,6 +1,7 @@
 from django import forms
 from .models import Transaction
 from django.contrib.auth.models import User
+from accounts.models import UserBankAccount
 class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
@@ -61,3 +62,25 @@ class LoanRequestForm(TransactionForm):
         amount = self.cleaned_data.get('amount')
 
         return amount
+
+class MoneyTransferForm(forms.Form):
+    recipient_account_no = forms.IntegerField(label='Recipient Account Number')
+    transfer_amount = forms.DecimalField(label='Transfer Amount')
+
+    def clean(self):
+        cleaned_data = super().clean()
+        recipient_account_no = cleaned_data.get("recipient_account_no")
+        transfer_amount = cleaned_data.get("transfer_amount")
+
+        # Perform validation here (e.g., recipient account exists, amount is valid, etc.)
+        if recipient_account_no:
+            try:
+                recipient_account = UserBankAccount.objects.get(account_no=recipient_account_no)
+            except UserBankAccount.DoesNotExist:
+                self.add_error('recipient_account_no', 'Recipient account does not exist.')
+        
+        # Additional validation logic if needed
+        if transfer_amount and transfer_amount <= 0:
+            self.add_error('transfer_amount', 'Transfer amount must be greater than zero.')
+
+        return cleaned_data

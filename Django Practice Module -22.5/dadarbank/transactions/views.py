@@ -15,9 +15,9 @@ from transactions.forms import (
     DepositForm,
     WithdrawForm,
     LoanRequestForm,
-    MoneyTransactionForm
+    MoneyTransferForm
 )
-from transactions.models import Transaction, MoneyTransaction
+from transactions.models import Transaction
 
 class TransactionCreateMixin(LoginRequiredMixin, CreateView):
     template_name = 'transactions/transaction_form.html'
@@ -92,64 +92,6 @@ class WithdrawMoneyView(TransactionCreateMixin):
         )
 
         return super().form_valid(form)
-
-# class MoneyView(TransactionCreateMixin):
-#     form_class = MoneyTransferForm
-#     title = "Money Transfer"
-#     def get_initial(self):
-#         initial = {'transaction_type': MONEY_TRANSFER}
-#         return initial
-#     def form_valid(self, form):
-#         amount = form.cleaned_data.get('amount')
-
-#         self.request.user.account.balance -= form.cleaned_data.get('amount')
-#         self.request.user.account.save(update_fields=['balance'])
-#         account = self.request.user.account
-#         account.balance += amount
-#         account.save(
-#             update_fields=[
-#                 'balance'
-#             ]
-#         )
-
-#         messages.success(
-#             self.request,
-#             f'Successfully {"{:,.2f}".format(float(amount))}$ Transfer from your account'
-#         )
-
-#         return super().form_valid(form)
-class MoneyView(FormView):
-    template_name = 'transactions/money_tansfer.html'
-    form_class = MoneyTransactionForm  # Use the correct form class
-    success_url = 'home'  # Change this to your desired success URL
-    title = "Money Transfer"
-
-    def form_valid(self, form):
-        sender_account = self.request.user.account
-        receiver_account = form.cleaned_data['receiver_account']
-        amount = form.cleaned_data['amount']
-        sender_account.balance -= amount
-        sender_account.save(update_fields=['balance'])
-
-        # Create a MoneyTransaction for the transfer
-        MoneyTransaction.objects.create(
-            sender_account=sender_account,
-            receiver_account=receiver_account,
-            amount=amount,
-            balance_after_transaction=sender_account.balance,
-            transaction_type=5  
-        )
-
-        # Update receiver's account balance
-        receiver_account.balance += amount
-        receiver_account.save(update_fields=['balance'])
-
-        messages.success(
-            self.request,
-            f'Successfully transferred {"{:,.2f}".format(float(amount))}$ to {receiver_account.user.username}'
-        )
-
-        return redirect(self.get_success_url())
     
 class LoanRequestView(TransactionCreateMixin):
     form_class = LoanRequestForm
@@ -222,7 +164,7 @@ class PayLoanView(LoginRequiredMixin, View):
                 loan.loan_approved = True
                 loan.transaction_type = LOAN_PAID
                 loan.save()
-                return redirect('transactions:loan_list')
+                return redirect('home')
             else:
                 messages.error(
             self.request,
@@ -243,15 +185,23 @@ class LoanListView(LoginRequiredMixin,ListView):
         print(queryset)
         return queryset
 
-# class MoneyTransferView(FormView):
-#     template_name = 'transactions/money_tansfer.html'
-#     form_class = MoneyTransferForm
-#     success_url = reverse_lazy('transaction_report')
+class MoneyTransferView(FormView):
+    template_name = 'transactions/transfer_form.html'
+    form_class = MoneyTransferForm
+    success_url = reverse_lazy('money_transfer')
 
-#     def form_valid(self, form):
-#         result = form.save()
-#         if result:
-#             return HttpResponse(result) 
-#         else:
-#             return HttpResponse("An error occurred during the transfer.")
+    def form_valid(self, form):
+        sender_account = UserBankAccount.objects.get(user=self.request.user)  # Assuming sender is the logged-in user
+        recipient_account_no = form.cleaned_data['recipient_account_no']
+        transfer_amount = form.cleaned_data['transfer_amount']
+
+        recipient_account = UserBankAccount.objects.filter(account_no=recipient_account_no).first()
+
+        if not recipient_account:
+            form.add_error('recipient_account_no', 'Recipient account does not exist.')
+            return self.form_invalid(form)
+
+        # Perform the money transfer
+        sender_account.money_transfer(recipient_account, transfer_amount)
+        return super().form_valid(form)
 

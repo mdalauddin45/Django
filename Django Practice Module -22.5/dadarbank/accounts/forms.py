@@ -1,4 +1,3 @@
-
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .constants import ACCOUNT_TYPE, GENDER_TYPE
@@ -125,3 +124,4 @@ class UserUpdateForm(forms.ModelForm):
             user_address.save()
 
         return user
+

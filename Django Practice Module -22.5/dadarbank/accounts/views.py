@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views import View
 from django.shortcuts import redirect
+from .models import UserBankAccount
 
 class UserRegistrationView(FormView):
     template_name = 'accounts/user_registration.html'
@@ -45,6 +46,4 @@ class UserBankAccountUpdateView(View):
             form.save()
             return redirect('profile')  # Redirect to the user's profile page
         return render(request, self.template_name, {'form': form})
-    
-    
     

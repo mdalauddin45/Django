@@ -12,8 +12,22 @@ class UserBankAccount(models.Model):
     gender = models.CharField(max_length=10, choices=GENDER_TYPE)
     initial_deposite_date = models.DateField(auto_now_add=True)
     balance = models.DecimalField(default=0, max_digits=12, decimal_places=2) # ekjon user 12 digit obdi taka rakhte parbe, dui doshomik ghor obdi rakhte parben 1000.50
+    is_bankrupt = models.BooleanField(default=False)
     def __str__(self):
         return str(self.account_no)
+    def money_transfer(self, recipient, amount):
+        if self.is_bankrupt:
+            print("Bank is bankrupt. Money transfer is not allowed.")
+            return
+
+        if recipient and amount <= self.balance:
+            self.balance -= amount
+            recipient.balance += amount
+            self.save()
+            recipient.save()
+            print(f"${amount} transferred to {recipient.user.username} successfully.")
+        else:
+            print("Transfer failed.")
     
 class UserAddress(models.Model):
     user = models.OneToOneField(User, related_name='address', on_delete=models.CASCADE)
