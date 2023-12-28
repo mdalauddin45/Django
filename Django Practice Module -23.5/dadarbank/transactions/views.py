@@ -18,7 +18,7 @@ from transactions.forms import (
     MoneyTransferForm
 )
 from transactions.models import Transaction
-from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
 def send_transaction_email(user,amount,subject,template):
