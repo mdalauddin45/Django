@@ -1,5 +1,7 @@
 from django import forms
 from .models import Transaction
+from accounts.models import UserBankAccount
+
 class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
@@ -19,7 +21,30 @@ class TransactionForm(forms.ModelForm):
         self.instance.balance_after_transaction = self.account.balance
         return super().save()
 
+class MoneyTransferForm(TransactionForm):
+    account = forms.CharField(max_length=255, label='Account No.')
 
+    class Meta:
+        model = Transaction
+        fields = [
+            'amount',
+            'transaction_type',
+            'account'
+        ]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        account = cleaned_data.get('account')
+        amount = cleaned_data.get('amount')
+
+        if amount < 100:
+            raise forms.ValidationError(f'You need to send at least $100.')
+
+        if not UserBankAccount.objects.filter(pk=account).exists():
+            raise forms.ValidationError(f'UserBankAccount not found for account number {account}. Please input a valid account number.')
+
+        return cleaned_data
+            
 class DepositForm(TransactionForm):
     def clean_amount(self): # amount field ke filter korbo
         min_deposit_amount = 100

@@ -1,12 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 from django.http import HttpResponse
 from django.views.generic import CreateView, ListView
-from transactions.constants import DEPOSIT, WITHDRAWAL,LOAN, LOAN_PAID
+from transactions.constants import DEPOSIT, WITHDRAWAL,LOAN, LOAN_PAID,MONEY_SEND
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from datetime import datetime
@@ -15,7 +16,9 @@ from transactions.forms import (
     DepositForm,
     WithdrawForm,
     LoanRequestForm,
+    MoneyTransferForm
 )
+from accounts.models import UserBankAccount
 from transactions.models import Transaction
 
 def send_transaction_email(user, amount, subject, template):
@@ -48,6 +51,39 @@ class TransactionCreateMixin(LoginRequiredMixin, CreateView):
 
         return context
 
+class SendMoneyView(TransactionCreateMixin):
+    form_class = MoneyTransferForm
+    title = 'Money Transfer'
+    
+    def get_initial(self):
+        initial = {'transaction_type': MONEY_SEND}
+        return initial
+    
+    def form_valid(self, form):
+        amount = form.cleaned_data.get('amount')
+        account_number = form.cleaned_data.get('account')
+        
+        # Check if account_number is a valid integer
+        if not account_number.isdigit():
+            raise Http404("Invalid account number")
+        
+        # Convert the account number to an integer
+        account_number = int(account_number)
+        
+        # Convert the account number to a UserBankAccount instance
+        recipient = get_object_or_404(UserBankAccount, pk=account_number)
+        
+        if amount <= self.request.user.account.balance:
+            self.request.user.account.balance -= amount
+            recipient.balance += amount
+            self.request.user.account.save(update_fields=['balance'])
+            recipient.save(update_fields=['balance'])
+            
+            messages.success(self.request, f'${amount} transferred to {recipient.user.username} successfully.')
+        else:
+            messages.error(self.request, 'You have insufficient funds.')
+
+        return super().form_valid(form)
 
 class DepositMoneyView(TransactionCreateMixin):
     form_class = DepositForm
