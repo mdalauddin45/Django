@@ -6,8 +6,10 @@
     {% if form.non_field_errors %}
     {% for er in form.non_field_errors %}
     <p class="text-danger">{{er}}</p>
-
     {% endfor %}
+    {% endif %}
+    {% if request.user.account.is_bankrupt %}
+        <p class="text-danger">Bank is Bankrupt</p>
     {% endif %}
     {% for fm in form%}
     {{fm.label_tag}}

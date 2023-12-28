@@ -48,7 +48,7 @@ class UserBankAccountUpdateView(View):
 class MoneyTransferView(FormView):
     template_name = 'transfer_form.html'
     form_class = MoneyTransferForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('money_transfer')
 
     def form_valid(self, form):
         sender_account = UserBankAccount.objects.get(user=self.request.user)  # Assuming sender is the logged-in user

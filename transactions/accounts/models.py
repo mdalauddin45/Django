@@ -12,24 +12,25 @@ class UserBankAccount(models.Model):
     gender = models.CharField(max_length=10, choices =GENDER_TYPE)
     initial_deposit_date = models.DateField(auto_now_add=True)
     balance = models.DecimalField(default=0, decimal_places=2, max_digits=12)
+    is_bankrupt = models.BooleanField(default=False)
     
     def __str__(self) :
         return f"Account No: {self.account_no}, Balance: {self.balance}"
     
+
     def money_transfer(self, recipient, amount):
-        if recipient:
-            if amount <= self.balance:
-                self.balance -= amount
-                recipient.balance += amount
-                # self.transaction_history += f"Transferred ${amount} to {recipient.user.username}.\n"
-                # recipient.transaction_history += f"Received ${amount} from {self.user.username}.\n"
-                self.save()
-                recipient.save()
-                print(f"${amount} transferred to {recipient.user.username} successfully.")
-            else:
-                print("You don't have enough balance for this transfer.")
+        if self.is_bankrupt:
+            print("Bank is bankrupt. Money transfer is not allowed.")
+            return
+
+        if recipient and amount <= self.balance:
+            self.balance -= amount
+            recipient.balance += amount
+            self.save()
+            recipient.save()
+            print(f"${amount} transferred to {recipient.user.username} successfully.")
         else:
-            print("Recipient account does not exist.")
+            print("Transfer failed.")
 
 class UserAddress(models.Model):
     user = models.OneToOneField(User, related_name="address",on_delete=models.CASCADE)
