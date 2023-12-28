@@ -57,21 +57,15 @@ class UserBankAccountUpdateView(View):
             return redirect('profile')  # Redirect to the user's profile page
         return render(request, self.template_name, {'form': form})
 
-# class PasswordChangeView(View):
-#     def post(self, request):
-#         form = SetPasswordForm(request.user, data=request.POST)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Password changed successfully")
-#             update_session_auth_hash(request, form.user)
-#             return redirect('profile')
-#         return render(request, 'accounts/passchange.html', {'form': form, 'type': 'Password Form'})
+class ChangePasswordView(View):
+    template_name = 'accounts/passchange.html'
+    success_url = reverse_lazy('profile')
     
-#     def get(self, request):
-#         form = SetPasswordForm(user=request.user)
-#         return render(request, 'accounts/passchange.html', {'form': form, 'type': 'Password Form'})
-def changepassword(request):
-    if request.method == 'POST':
+    def get(self, request):
+        form = SetPasswordForm(user=request.user)
+        return render(request, self.template_name, {'form': form, 'type': 'Change password'})
+    
+    def post(self, request):
         form = SetPasswordForm(request.user, data=request.POST)
         if form.is_valid():
             form.save()
@@ -85,7 +79,6 @@ def changepassword(request):
             )
             
             messages.success(request, "Password changed successfully")
-            return redirect('profile')
-    else:
-        form = SetPasswordForm(user=request.user)
-    return render(request, 'accounts/passchange.html', {'form': form, 'type': 'Change password'})
+            return redirect(self.success_url)
+
+        return render(request, self.template_name, {'form': form, 'type': 'Change password'})
