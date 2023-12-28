@@ -10,10 +10,9 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
-def send_transaction_email(user,amount,subject,template):
+def send_transaction_email(user,subject,template):
     message = render_to_string(template,{
         'user': user,
-        'amount':amount,
     })
     send_email = EmailMultiAlternatives(subject, '',to=[user.email])
     send_email.attach_alternative(message, "text/html")
@@ -71,14 +70,22 @@ class UserBankAccountUpdateView(View):
 #     def get(self, request):
 #         form = SetPasswordForm(user=request.user)
 #         return render(request, 'accounts/passchange.html', {'form': form, 'type': 'Password Form'})
-def charngepassword(request):
+def changepassword(request):
     if request.method == 'POST':
         form = SetPasswordForm(request.user, data=request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request,"Password Changes Succesfully")
             update_session_auth_hash(request, form.user)
+            
+            # Add the email sending functionality here
+            send_transaction_email(
+                request.user,
+                "Password Changes",
+                'accounts/passchange_email.html'
+            )
+            
+            messages.success(request, "Password changed successfully")
             return redirect('profile')
     else:
         form = SetPasswordForm(user=request.user)
-    return render(request, 'accounts/passchange.html',{'form':form, 'type': 'Change password'})
+    return render(request, 'accounts/passchange.html', {'form': form, 'type': 'Change password'})

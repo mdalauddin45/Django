@@ -1,7 +1,7 @@
 {% extends 'base.html' %} 
 {% block head_title %}{{ title }}{% endblock %} 
 {% block content %}
-<div class="w-full flex mt-5 justify-center ">
+<div class="w-full flex mt-5 justify-center">
     <div class="bg-white w-5/12 rounded-lg">
         <h1 class="font-bold text-3xl text-center pb-5 pt-10 px-5">Change Password</h1>
         <form method="post" class="px-8 pt-6 pb-8 mb-4">
@@ -11,11 +11,15 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ field.id_for_label }}">
                     {{ field.label }}
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight border rounded-md border-gray-500 focus:outline-none focus:shadow-outline"id="{{ field.id_for_label }}" name="{{ field.id_for_label }}" required type="password" required placeholder="{{ field.label }}">
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight border rounded-md border-gray-500 focus:outline-none focus:shadow-outline"
+                    id="{{ field.id_for_label }}" name="{{ field.name }}" required type="password" placeholder="{{ field.label }}">
             </div>
             {% endfor %}
             <div class="flex w-full justify-center">
-                <button class="bg-blue-900 text-white hover:text-blue-900 hover:bg-white border border-blue-900 font-bold px-4 py-2 rounded-lg" type="submit">
+                <button
+                    class="bg-blue-900 text-white hover:text-blue-900 hover:bg-white border border-blue-900 font-bold px-4 py-2 rounded-lg"
+                    type="submit">
                     Submit
                 </button>
             </div>
