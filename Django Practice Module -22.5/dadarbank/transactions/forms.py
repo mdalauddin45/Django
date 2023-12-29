@@ -71,15 +71,12 @@ class MoneyTransferForm(forms.Form):
         cleaned_data = super().clean()
         recipient_account_no = cleaned_data.get("recipient_account_no")
         transfer_amount = cleaned_data.get("transfer_amount")
-
-        # Perform validation here (e.g., recipient account exists, amount is valid, etc.)
         if recipient_account_no:
             try:
                 recipient_account = UserBankAccount.objects.get(account_no=recipient_account_no)
             except UserBankAccount.DoesNotExist:
                 self.add_error('recipient_account_no', 'Recipient account does not exist.')
-        
-        # Additional validation logic if needed
+
         if transfer_amount and transfer_amount <= 0:
             self.add_error('transfer_amount', 'Transfer amount must be greater than zero.')
 

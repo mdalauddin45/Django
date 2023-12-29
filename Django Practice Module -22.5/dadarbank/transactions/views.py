@@ -126,7 +126,7 @@ class LoanRequestView(TransactionCreateMixin):
 class TransactionReportView(LoginRequiredMixin, ListView):
     template_name = 'transactions/transaction_report.html'
     model = Transaction
-    balance = 0 # filter korar pore ba age amar total balance ke show korbe
+    balance = 0 
     
     def get_queryset(self):
         queryset = super().get_queryset().filter(
@@ -146,7 +146,7 @@ class TransactionReportView(LoginRequiredMixin, ListView):
         else:
             self.balance = self.request.user.account.balance
        
-        return queryset.distinct() # unique queryset hote hobe
+        return queryset.distinct() 
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -183,7 +183,7 @@ class PayLoanView(LoginRequiredMixin, View):
 class LoanListView(LoginRequiredMixin,ListView):
     model = Transaction
     template_name = 'transactions/loan_request.html'
-    context_object_name = 'loans' # loan list ta ei loans context er moddhe thakbe
+    context_object_name = 'loans' 
     
     def get_queryset(self):
         user_account = self.request.user.account
@@ -198,22 +198,14 @@ class MoneyTransferView(FormView):
     success_url = reverse_lazy('money_transfer')
 
     def form_valid(self, form):
-        sender_account = UserBankAccount.objects.get(user=self.request.user)  # Assuming sender is the logged-in user
+        sender_account = UserBankAccount.objects.get(user=self.request.user) 
         recipient_account_no = form.cleaned_data['recipient_account_no']
         transfer_amount = form.cleaned_data['transfer_amount']
         recipient_account = UserBankAccount.objects.filter(account_no=recipient_account_no).first()
         account = self.request.user.account
         
-        
         if account.is_bankrupt:
             messages.error(self.request, "Sorry, Money Transfer is not allowed. Dadar bank is bankrupt.")
-            return self.form_invalid(form)
-
-        if not recipient_account:
-            messages.error(
-                self.request,
-                'Recipient account does not exist.'
-            )
             return self.form_invalid(form)
         
         if sender_account.balance < transfer_amount:
@@ -223,13 +215,14 @@ class MoneyTransferView(FormView):
             )
             return self.form_invalid(form)
         
-        sender_account.money_transfer(recipient_account, transfer_amount)
-        messages.success(
-            self.request,
-            f'Successfully sent {"{:,.2f}".format(float(transfer_amount))}$ from your account'
-        )
-
-        return super().form_valid(form)
+        if recipient_account is not None:
+            messages.success(self.request, f'Successfully sent {"{:,.2f}".format(float(transfer_amount))}$ from your account')
+            sender_account.money_transfer(recipient_account, transfer_amount)
+            return super().form_valid(form)
+        if recipient_account_no is not recipient_account:
+            messages.error(self.request, "Recipient account not found.")
+            return self.form_invalid(form)
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         context.update({
