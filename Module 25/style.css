@@ -1,0 +1,18 @@
+body{
+    /* width: 1200px; */
+    margin: auto;
+}
+li{
+    list-style: none;
+    
+}
+nav{
+    background-color: aqua;
+}
+.menu{
+    font-size: 20px;
+}
+.menu:hover{
+    color: white;
+    cursor: pointer;
+}
