@@ -16,3 +16,22 @@ nav{
     color: white;
     cursor: pointer;
 }
+.banar-container{
+    width: 1200px;
+    height: 500px;
+    margin: auto;
+    padding: 30px;
+}
+.banar{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(cyan, rgb(26, 139, 139)) ;
+    box-shadow: 4px 4px 8px gray;
+    border-radius: 10px;
+}
+.bn-img{
+    width: 100%;
+    margin-top: -50px;
+}
