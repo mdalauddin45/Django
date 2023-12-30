@@ -7,7 +7,7 @@ const loadServices = ()=>{
 const displayService=(services)=>{
 
     services.forEach(service => {
-        console.log(service)
+        // console.log(service)
         const parent = document.getElementById("all-service");
         const li = document.createElement("li");
         li.classList.add("slide-visible");
@@ -28,3 +28,30 @@ const displayService=(services)=>{
     });
 };
 loadServices();
+
+const loadDoctors=()=>{
+    fetch("https://testing-8az5.onrender.com/doctor/list/")
+        .then((res)=>res.json())
+        .then((data)=>displayDoctors(data?.results))
+        .catch((err)=>console.log(err));
+};
+const displayDoctors=(doctors)=>{
+    doctors?.forEach((doctor)=>{
+        console.log(doctor);
+        const parent = document.getElementById("doctors");
+        const div = document.createElement("div");
+        div.classList.add("doc-card");
+        div.innerHTML=
+        `
+        <img class="doc-img" src=${doctor.image} alt="">
+        <h4>${doctor.full_name}</h4>
+        <h6>${doctor.designation[0]}</h6>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, cupiditate?</p>
+        ${
+            doctor?.specialization.map((s)=>`<button>${s}</button>`).join('')}
+         <button>Details</button>
+        `;
+        parent.appendChild(div);
+    });
+};
+loadDoctors();
