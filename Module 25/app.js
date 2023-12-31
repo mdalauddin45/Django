@@ -27,10 +27,13 @@ const displayService=(services)=>{
         parent.appendChild(li)
     });
 };
-const loadDoctors=()=>{
-    fetch("https://testing-8az5.onrender.com/doctor/list/")
+const loadDoctors=(search)=>{
+    fetch(`https://testing-8az5.onrender.com/doctor/list/?search=${search?  search: " "}`)
         .then((res)=>res.json())
-        .then((data)=>displayDoctors(data?.results))
+        .then((data)=>{
+            console.log(data);
+            displayDoctors(data?.results)
+        })
         .catch((err)=>console.log(err));
 };
 const displayDoctors=(doctors)=>{
@@ -76,7 +79,7 @@ const loadSpecialization=()=>{
         .catch((err)=>console.log(err));
 };
 const displaySpecialization=(specializations)=>{
-    console.log(specializations);
+    // console.log(specializations);
     specializations.forEach((specialization)=>{
         const parent= document.getElementById("Specialization");
         const li = document.createElement("li");
@@ -86,7 +89,11 @@ const displaySpecialization=(specializations)=>{
 
     });
 };
-
+const handleSearch=()=>{
+    const value = document.getElementById("search").value;
+    console.log(value);
+    loadDoctors(value)
+}
 
 loadServices();
 loadDoctors();
