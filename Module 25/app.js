@@ -27,8 +27,6 @@ const displayService=(services)=>{
         parent.appendChild(li)
     });
 };
-loadServices();
-
 const loadDoctors=()=>{
     fetch("https://testing-8az5.onrender.com/doctor/list/")
         .then((res)=>res.json())
@@ -37,7 +35,7 @@ const loadDoctors=()=>{
 };
 const displayDoctors=(doctors)=>{
     doctors?.forEach((doctor)=>{
-        console.log(doctor);
+        // console.log(doctor);
         const parent = document.getElementById("doctors");
         const div = document.createElement("div");
         div.classList.add("doc-card");
@@ -54,4 +52,43 @@ const displayDoctors=(doctors)=>{
         parent.appendChild(div);
     });
 };
+const loadDesignation=()=>{
+    fetch("https://testing-8az5.onrender.com/doctor/designation/")
+        .then((res)=>res.json())
+        .then((data)=>displayDesiginaton(data))
+        .catch((err)=>console.log(err));
+};
+const displayDesiginaton=(designations)=>{
+    // console.log(designations);
+    designations.forEach((designation)=>{
+        const parent= document.getElementById("designation");
+        const li = document.createElement("li");
+        li.classList.add("dropdown-item");
+        li.innerText = designation.name;
+        parent.appendChild(li);
+
+    });
+};
+const loadSpecialization=()=>{
+    fetch("https://testing-8az5.onrender.com/doctor/specialization/")
+        .then((res)=>res.json())
+        .then((data)=>displaySpecialization(data))
+        .catch((err)=>console.log(err));
+};
+const displaySpecialization=(specializations)=>{
+    console.log(specializations);
+    specializations.forEach((specialization)=>{
+        const parent= document.getElementById("Specialization");
+        const li = document.createElement("li");
+        li.classList.add("dropdown-item");
+        li.innerText = specialization.name;
+        parent.appendChild(li);
+
+    });
+};
+
+
+loadServices();
 loadDoctors();
+loadDesignation();
+loadSpecialization();
