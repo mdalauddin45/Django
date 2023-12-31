@@ -80,3 +80,16 @@ footer{
 #spinner{
     display: none;
 }
+.review-card{
+    width: 300px;
+    height: 300px;
+    box-shadow: 4px 4px 8px gray;
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+}
+.review-card img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+}
