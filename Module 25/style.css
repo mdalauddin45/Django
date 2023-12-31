@@ -74,3 +74,6 @@ footer{
     padding: 50px;
     background: linear-gradient(66deg, #1CA8C7 -5.25%, #439FA5 46.76%, #4C7D8C 98.77%);
 }
+.nodata{
+    display: none;
+}

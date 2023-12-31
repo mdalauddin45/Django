@@ -7,7 +7,6 @@ const loadServices = ()=>{
 const displayService=(services)=>{
 
     services.forEach(service => {
-        // console.log(service)
         const parent = document.getElementById("all-service");
         const li = document.createElement("li");
         li.classList.add("slide-visible");
@@ -28,17 +27,21 @@ const displayService=(services)=>{
     });
 };
 const loadDoctors=(search)=>{
+    document.getElementById("doctors").innerHTML="";
     fetch(`https://testing-8az5.onrender.com/doctor/list/?search=${search?  search: " "}`)
         .then((res)=>res.json())
         .then((data)=>{
-            console.log(data);
-            displayDoctors(data?.results)
+            if (data?.results.length>0){
+                displayDoctors(data?.results)
+            }else{
+                document.getElementById("doctors").innerHTML="";
+                document.getElementById("nodata").style.display="block";
+            }
         })
         .catch((err)=>console.log(err));
 };
 const displayDoctors=(doctors)=>{
     doctors?.forEach((doctor)=>{
-        // console.log(doctor);
         const parent = document.getElementById("doctors");
         const div = document.createElement("div");
         div.classList.add("doc-card");
@@ -62,12 +65,14 @@ const loadDesignation=()=>{
         .catch((err)=>console.log(err));
 };
 const displayDesiginaton=(designations)=>{
-    // console.log(designations);
     designations.forEach((designation)=>{
         const parent= document.getElementById("designation");
         const li = document.createElement("li");
         li.classList.add("dropdown-item");
-        li.innerText = designation.name;
+        // li.innerText = designation.name;
+        li.innerHTML=`
+        <li onclick="loadDoctors('${designation.name}')">${designation.name}</li>
+        `;
         parent.appendChild(li);
 
     });
@@ -79,19 +84,20 @@ const loadSpecialization=()=>{
         .catch((err)=>console.log(err));
 };
 const displaySpecialization=(specializations)=>{
-    // console.log(specializations);
     specializations.forEach((specialization)=>{
         const parent= document.getElementById("Specialization");
         const li = document.createElement("li");
         li.classList.add("dropdown-item");
-        li.innerText = specialization.name;
+        // li.innerText = specialization.name;
+        li.innerHTML=`
+        <li onclick="loadDoctors('${specialization.name}')">${specialization.name}</li>
+        `;
         parent.appendChild(li);
 
     });
 };
 const handleSearch=()=>{
     const value = document.getElementById("search").value;
-    console.log(value);
     loadDoctors(value)
 }
 
