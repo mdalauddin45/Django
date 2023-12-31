@@ -28,14 +28,18 @@ const displayService=(services)=>{
 };
 const loadDoctors=(search)=>{
     document.getElementById("doctors").innerHTML="";
+    document.getElementById("spinner").style.display="block";
     fetch(`https://testing-8az5.onrender.com/doctor/list/?search=${search?  search: " "}`)
         .then((res)=>res.json())
         .then((data)=>{
             if (data?.results.length>0){
+                document.getElementById("nodata").style.display="none";
+                document.getElementById("spinner").style.display="none";
                 displayDoctors(data?.results)
             }else{
                 document.getElementById("doctors").innerHTML="";
                 document.getElementById("nodata").style.display="block";
+                document.getElementById("spinner").style.display="none";
             }
         })
         .catch((err)=>console.log(err));

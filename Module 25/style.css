@@ -77,3 +77,6 @@ footer{
 .nodata{
     display: none;
 }
+#spinner{
+    display: none;
+}
