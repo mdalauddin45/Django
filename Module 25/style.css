@@ -8,7 +8,8 @@ li{
     
 }
 nav{
-    background-color: aqua;
+    /* background-color: aqua; */
+    background: linear-gradient(66deg, #0bcbf6 -5.25%, #0defff 46.76%, #4C7D8C 98.77%);
 }
 .menu{
     font-size: 20px;
@@ -27,7 +28,8 @@ nav{
     justify-content: space-around;
     align-items: center;
     text-align: center;
-    background: linear-gradient(cyan, rgb(26, 139, 139)) ;
+    /* background: linear-gradient(cyan, rgb(26, 139, 139)) ; */
+    background: linear-gradient(66deg, #0bcbf6 -5.25%, #0defff 46.76%, #4C7D8C 98.77%);
     box-shadow: 4px 4px 8px gray;
     border-radius: 10px;
     height: 450px;
@@ -93,3 +95,61 @@ footer{
     height: 70px;
     border-radius: 50px;
 }
+.doctor-img img{
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+    }
+    .doc-details-container{
+        display: flex;
+        justify-content: space-around;
+        padding: 30px;
+        gap: 50px;
+        width: 75%;
+        margin: auto;
+    }
+    .doc-detail-btn{
+        border: none;
+        padding:5px 10px;
+        background-color:gray;
+        color: white;
+        border-radius: 5px;
+    }
+    
+    .user-detais-container{
+        height: 100vh;
+        width: 75%;
+        margin: auto;
+    }
+    .user-img img{
+    width: 200px;
+    height: 200px;
+    border-radius:100px;
+    }
+    .user-all{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+    }
+    .all-appointment-container{
+        width: 90%;
+        margin: auto;
+        height: 100vh;
+    }
+    
+    .doctor{
+        width: 350px;
+        height:400px;
+        box-shadow: 4px 4px 8px gray;
+        text-align: center;
+        background-color:gray;
+        color: white;
+        border-radius:10px;
+    }
+    .symtom{
+        width: 50%;
+        padding: 20px;
+        margin: 20px;
+        border: none;
+    }

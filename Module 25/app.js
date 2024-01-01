@@ -57,7 +57,7 @@ const displayDoctors=(doctors)=>{
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, cupiditate?</p>
         ${
             doctor?.specialization.map((s)=>`<button>${s}</button>`).join('')}
-         <button>Details</button>
+         <button><a target="_blank" href="docDetails.html?doctorId=${doctor.id}">Details</a></button>
         `;
         parent.appendChild(div);
     });
