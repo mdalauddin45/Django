@@ -99,46 +99,46 @@ footer{
     width: 150px;
     height: 150px;
     border-radius: 100px;
-    }
-    .doc-details-container{
+}
+.doc-details-container{
         display: flex;
         justify-content: space-around;
         padding: 30px;
         gap: 50px;
         width: 75%;
         margin: auto;
-    }
-    .doc-detail-btn{
+}
+.doc-detail-btn{
         border: none;
         padding:5px 10px;
         background-color:gray;
         color: white;
         border-radius: 5px;
-    }
-    
-    .user-detais-container{
+        margin: 2px;
+}
+.user-detais-container{
         height: 100vh;
         width: 75%;
         margin: auto;
-    }
-    .user-img img{
+}
+.user-img img{
     width: 200px;
     height: 200px;
     border-radius:100px;
-    }
-    .user-all{
+}
+.user-all{
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 50px;
-    }
-    .all-appointment-container{
+}
+.all-appointment-container{
         width: 90%;
         margin: auto;
         height: 100vh;
-    }
+}
     
-    .doctor{
+.doctor{
         width: 350px;
         height:400px;
         box-shadow: 4px 4px 8px gray;
@@ -147,9 +147,9 @@ footer{
         color: white;
         border-radius:10px;
     }
-    .symtom{
+.symtom{
         width: 50%;
         padding: 20px;
         margin: 20px;
         border: none;
-    }
+}
