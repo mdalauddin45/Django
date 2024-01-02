@@ -20,7 +20,10 @@ body{
     width: 200px;
     text-align: center;
 }
+.detailscard-img{
+    height: 500px;
+    width: 400px;
+}
 li{
-    list-style: none;
-    
+    list-style: none; 
 }
