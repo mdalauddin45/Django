@@ -63,7 +63,61 @@
       </div>
     </div>
 
+  <!-- modal area -->
+    <!-- Button trigger modal -->
 
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Submit Your Info</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input type="radio" name="status" value="Offline" /> Offline
+            <input type="radio" name="status" value="Online" /> Online<br />
+
+            <input id="symptom" type="text" placeholder="Type Your symptom" />
+            <br />
+
+            <select id="time-container" class="p-2 mt-2" id="time" name="time">
+              <!-- <option value="none" selected>available Time</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">other</option> -->
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              onclick="handleAppointment()"
+              type="button"
+              class="btn btn-primary"
+            >
+              Take Appointment
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <footer class="p-5">
         <div class="footer-container p-5 w-75 m-auto row">
             <div class="col-md-6">
