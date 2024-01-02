@@ -26,24 +26,19 @@ const displayProducts = (products) => {
     products.forEach(item => {
         const parent = document.getElementById("products");
         const div = document.createElement("div");
-        div.classList.add("col-xl-3", "col-lg-4", "col-md-6", "col-12");
+        // div.classList.add("col-xl-3", "col-lg-4", "col-md-6", "col-12");
+        div.classList.add("col-lg-3", "col-md-6", "mb-4", "mb-lg-0");
         div.classList.add("card-container");
         div.innerHTML = `
-            <div class="card mx-auto mt-4" style="max-width: 18rem;">
-                <img class="card-img" src=${item.image} alt="">
-                <div class="card-body">
-                    <div class="space-y-2">
-                        <h2 class="card-title text-3xl font-weight-bold">${item.title.slice(0,10)}</h2>
-                        <p class="card-text">${item.price}</p>
-                        <p>${item.category}</p>
-                        <p>${item.rating?.rate}</p>
-                    </div>
-                    <button>
-                    <a target="_blank" href="cardDetails.html?cardId=${item.id}" class="btn btn-primary btn-block font-weight-bold">Details</a>
-                    </button>
-                </div>
+        <div class="card rounded shadow-sm border-0">
+            <div class="card-body p-4"><img class="card-img" src=${item.image} alt="" class="img-fluid d-block mx-auto mb-3">
+                <h5>${item.title.slice(0,20)}..</h5>
+                <p class="small text-muted font-italic">Price: ${item.price}$</p>
+                <p>Category: ${item.category}</p>
+                <p>${item.rating?.rate}</p>
+                <a target="_blank" href="cardDetails.html?cardId=${item.id}" class="button-37">Details</a>
             </div>
-
+        </div>
         `;
         parent.appendChild(div);
     });
@@ -59,7 +54,7 @@ const displayCategories = (categories) => {
     const parent = document.getElementById("category");
     categories.forEach(category => {
         const buttonElement = document.createElement('button');
-        buttonElement.classList.add('btn', 'btn-primary', 'm-3');
+        buttonElement.classList.add('button-37','m-3');
         buttonElement.textContent = category;
         buttonElement.addEventListener('click', () => {
             loadProducts(category);
