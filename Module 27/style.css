@@ -1,0 +1,155 @@
+body{
+    /* width: 1200px; */
+    margin: auto;
+    background-color: ghostwhite;
+}
+li{
+    list-style: none;
+    
+}
+nav{
+    /* background-color: aqua; */
+    background: linear-gradient(66deg, #0bcbf6 -5.25%, #0defff 46.76%, #4C7D8C 98.77%);
+}
+.menu{
+    font-size: 20px;
+}
+.menu:hover{
+    color: white;
+    cursor: pointer;
+}
+.banar-container{
+    width: 1200px;
+    margin: auto;
+    padding: 30px;
+}
+.banar{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    /* background: linear-gradient(cyan, rgb(26, 139, 139)) ; */
+    background: linear-gradient(66deg, #0bcbf6 -5.25%, #0defff 46.76%, #4C7D8C 98.77%);
+    box-shadow: 4px 4px 8px gray;
+    border-radius: 10px;
+    height: 450px;
+}
+.bn-img{
+    width: 322px;
+    margin-top: -50px;
+}
+.service-container{
+    width: 1200px;
+    margin: auto;
+    margin-top: 50px;
+}
+.title{
+    font-size: 40px;
+    color: aqua;
+    text-align: center;
+}
+.doctor-container{
+    margin-top: 50px;
+    padding: 30px;
+}
+.doc-card{
+    width: 300px;
+    height: 360px;
+    box-shadow: 4px 4px 8px gray;
+    border-radius: 10px;
+    text-align: center;
+    padding: 15px;
+}
+.doc-img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+}
+#search{
+    padding: 10px;
+    border: none;
+    width: 75%;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+footer{
+    padding: 50px;
+    background: linear-gradient(66deg, #1CA8C7 -5.25%, #439FA5 46.76%, #4C7D8C 98.77%);
+}
+.nodata{
+    display: none;
+}
+#spinner{
+    display: none;
+}
+.review-card{
+    width: 300px;
+    height: 300px;
+    box-shadow: 4px 4px 8px gray;
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+}
+.review-card img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+}
+.doctor-img img{
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+}
+.doc-details-container{
+        display: flex;
+        justify-content: space-around;
+        padding: 30px;
+        gap: 50px;
+        width: 75%;
+        margin: auto;
+}
+.doc-detail-btn{
+        border: none;
+        padding:5px 10px;
+        background-color:gray;
+        color: white;
+        border-radius: 5px;
+        margin: 2px;
+}
+.user-detais-container{
+        height: 100vh;
+        width: 75%;
+        margin: auto;
+}
+.user-img img{
+    width: 200px;
+    height: 200px;
+    border-radius:100px;
+}
+.user-all{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+}
+.all-appointment-container{
+        width: 90%;
+        margin: auto;
+        height: 100vh;
+}
+    
+.doctor{
+        width: 350px;
+        height:400px;
+        box-shadow: 4px 4px 8px gray;
+        text-align: center;
+        background-color:gray;
+        color: white;
+        border-radius:10px;
+    }
+.symtom{
+        width: 50%;
+        padding: 20px;
+        margin: 20px;
+        border: none;
+}

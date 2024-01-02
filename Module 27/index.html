@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="d-flex justify-content-around align-items-center">
+            <div class="logo-container d-flex align-items-center gap-2">
+                <img src="./images/stethoscope 1.png" alt="">
+                <h3>SmartCare</h3>
+            </div>
+            <div class="menu-container d-flex gap-2">
+                <a class="menu" href="/">Home</a>
+               <!--<li class="menu">Home</li>--> 
+                <li class="menu">Services</li>
+                <li class="menu">Contact Us</li>
+                <li class="menu"><a href="login.html">Login</a></li>             
+            </div>
+        </nav>
+
+        <div class="banar-container">
+            <h3>I am Md Ala Uddin</h3>
+            <div class="banar">
+                <div class="banar-text">
+                    <h1>Providing Quality <br> Healthcare</h1> 
+                    <p class="w-50 m-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, officia. Eos laborum repellat quod exercitationem aliquid id est quisquam magnam!</p>
+                </div>
+                <div class="banar-img">
+                    <img class="bn-img" src="./images/doc.png" alt="">
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <!--add services herer-->
+        <div class="service-container text-center">
+            <h1 class="title">Services we provide</h1>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam, minima!</p>
+            <div class="swiffy-slider slider-item-show2 slider-item-reveal slider-nav-outside slider-nav-round slider-nav-visible slider-indicators-outside slider-indicators-round slider-indicators-dark slider-nav-animation slider-nav-animation-fadein slider-item-last-visible">
+                <ul id="all-service" class="slider-container py-4">
+                </ul>
+                <button type="button" class="slider-nav" aria-label="Go left"></button>
+                <button type="button" class="slider-nav slider-nav-next" aria-label="Go left"></button>
+            
+                <div class="slider-indicators">
+                    <button class="" aria-label="Go to slide"></button>
+                    <button aria-label="Go to slide" class=""></button>
+                    <button aria-label="Go to slide" class=""></button>
+                    <button aria-label="Go to slide" class=""></button>
+                    <button aria-label="Go to slide" class="active"></button>
+                </div>
+            </div>
+        </div>
+
+         <!--all Doctor section-->
+         <div class="doctor-container row d-flex justify-content-center">
+            <div class="col-md-4 text-center d-flex gap-3 justify-content-center">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Designation
+                    </button>
+                    <ul id="designation" class="dropdown-menu">
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Specialization
+                    </button>
+                    <ul id="Specialization" class="dropdown-menu">
+                      </ul>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <input id="search" type="text" placeholder="search..">
+                <button onclick="handleSearch()">Search</button>
+                <div id="doctors" class="doctors mt-5"></div>
+                <div id="nodata" class="nodata">
+                    <img src="./images/nodata.png" alt="">
+                </div>
+                <div id="spinner" class="loading text-center">
+                    <h4>Loading...</h4>
+                </div>
+            </div>
+         </div>
+         <!--all review section-->
+         <div class="review-container p-3 mt-5 w-75 m-auto">
+            <h1 class="title">Clients Review about us</h1>
+            <p class="description text-center m-auto w-50">Lorem ipsum dolor sit amet consectetur <br> adipisicing elit. Unde, assumenda.</p>
+            <div class="reviews">
+                <div class="swiffy-slider slider-item-show2 slider-item-reveal slider-nav-outside slider-nav-round slider-nav-visible slider-indicators-outside slider-indicators-round slider-indicators-dark slider-nav-animation slider-nav-animation-fadein slider-item-last-visible">
+                    <ul id="all-review" class="slider-container py-4">
+                    </ul>
+                    <button type="button" class="slider-nav" aria-label="Go left"></button>
+                    <button type="button" class="slider-nav slider-nav-next" aria-label="Go left"></button>
+                
+                    <div class="slider-indicators">
+                        <button class="" aria-label="Go to slide"></button>
+                        <button aria-label="Go to slide" class=""></button>
+                        <button aria-label="Go to slide" class=""></button>
+                        <button aria-label="Go to slide" class=""></button>
+                        <button aria-label="Go to slide" class="active"></button>
+                    </div>
+                </div>
+             </div>
+        </div>
+         
+    </main>
+    <footer class="p-5">
+        <div class="footer-container p-5 w-75 m-auto row">
+            <div class="col-md-6">
+                <p><small>Copyright © Smartcare. All Rights Reserved</small></p>
+                <h5>Follow US</h5>
+                <div class="icons">
+                  <img class="icon" src="./Images/LinkedIn.png" alt="" />
+                  <img class="icon" src="./Images/YouTube.png" alt="" />
+                  <img class="icon" src="./Images/LinkedIn.png" alt="" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <h5>Company</h5>
+                <li>About</li>
+                <li>Contact Us</li>
+                <li> Culture</li>
+                <li>Blog</li>
+            </div>
+            <div class="col-md-3">
+                <h5>Company</h5>
+                <li>About</li>
+                <li>Contact Us</li>
+                <li> Culture</li>
+                <li>Blog</li>
+            </div>
+        </div>
+        <hr>
+        <p class="text-center mt-3">
+            <small>Copyright © Smartcare. All Rights Reserved</small>
+        </p>
+    </footer>
+
+
+    <!-- Bootstrap JS Bundle (Bootstrap + Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Your custom script file -->
+    <script src="./app.js"></script>
+    <script src="./docdetails.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js" crossorigin="anonymous" defer></script>
+</body>
+</html>
