@@ -20,18 +20,29 @@
     <link rel="stylesheet" href="login.css" />
   </head>
   <body>
-    <nav class="d-flex justify-content-around align-items-center p-4">
+    <nav class="d-flex justify-content-around align-items-center">
       <div class="logo-container d-flex align-items-center gap-2">
-        <img src="./Images/stethoscope 1.png" alt="" />
-        <h3>SmartCare</h3>
+          <img src="./images/stethoscope 1.png" alt="">
+          <h3>SmartCare</h3>
       </div>
-      <div class="menu-container d-flex gap-3">
-        <li class="menu"><a href="index.html"></a></li>
-        <li class="menu">Services</li>
-        <li class="menu">Contact us</li>
-        <li class="menu"><a target="_blank" href="login.html">Login</a></li>
+      <div class="menu-container d-flex gap-2">
+          <a class="menu" href="/">Home</a>
+         <!--<li class="menu">Home</li>--> 
+          <li class="menu">Services</li>
+          <li class="menu">Contact Us</li>
+          <li class="menu"><a href="login.html">Login</a></li>
+          <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Profile
+              </button>
+              <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="userDetails.html">Profile</a></li>
+                  <li><a class="dropdown-item" href="allAppoinment.html">All Appoinment</a></li>
+                  <li><a class="dropdown-item" href="#">Logout</a></li>
+              </ul>
+          </div>             
       </div>
-    </nav>
+  </nav>
 
     <div class="login-container">
       <div class="col-md-6">

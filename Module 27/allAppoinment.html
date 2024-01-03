@@ -28,15 +28,32 @@
                   Profile
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item" href="#">All Appoinment</a></li>
+                    <li><a class="dropdown-item" href="userDetails.html">Profile</a></li>
+                    <li><a class="dropdown-item" href="allAppoinment.html">All Appoinment</a></li>
                     <li><a class="dropdown-item" href="#">Logout</a></li>
                 </ul>
             </div>             
         </div>
     </nav>
     <main>
-         
+        <div class="all-appointment-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>symptom</th>
+                  <th>type</th>
+                  <th>status</th>
+                  <th>doctor</th>
+                  <th>fees</th>
+                  <th>action</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+               
+              </tbody>
+            </table>
+          </div>
     </main>
     <footer class="p-5">
         <div class="footer-container p-5 w-75 m-auto row">
@@ -74,8 +91,7 @@
     <!-- Bootstrap JS Bundle (Bootstrap + Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Your custom script file -->
-    <script src="./app.js"></script>
-    <script src="./docdetails.js"></script>
+    <script src="./allAppinment.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js" crossorigin="anonymous" defer></script>
 </body>
