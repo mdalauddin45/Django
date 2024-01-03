@@ -11,7 +11,7 @@ const createNewUser = (event) => {
     const newUser = {
       name: {
         firstname: newUserName,
-        lastname: "", // You may modify this based on your data structure
+        lastname: "",
       },
       username: newUserName,
       password: newUserPassword,
@@ -24,8 +24,7 @@ const createNewUser = (event) => {
       },
     };
     console.log(newUser);
-  
-    // Send the new user data to the server for creation
+
     fetch('https://fakestoreapi.com/users', {
       method: 'POST',
       headers: {
@@ -38,8 +37,6 @@ const createNewUser = (event) => {
       console.log(data);
     if (data.id) {
       saveUserToLocalstorage(newUser);
-
-        // If the user was created successfully, navigate to the user list page
       window.location.href = "alluser.html";
     } else {
         console.error("User creation failed");
@@ -48,13 +45,8 @@ const createNewUser = (event) => {
     .catch(error => console.error('Error:', error));
 };
 const saveUserToLocalstorage = (user) => {
-    // Get existing users from local storage or initialize an empty array
     const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-
-    // Add the new user to the array
     existingUsers.push(user);
-
-    // Save the updated array back to local storage
     localStorage.setItem("users", JSON.stringify(existingUsers));
 };
 const getValue = (id) => {
