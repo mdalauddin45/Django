@@ -27,6 +27,7 @@ const doctorReview = (reviews) => {
   });
 };
 const displayDetails=(doctor)=>{
+  // console.log(doctor)
   const parent = document.getElementById("doc-details");
   const div = document.createElement("div");
   div.classList.add("doc-details-container");
@@ -58,7 +59,7 @@ const loadTime=(id)=>{
     // console.log(data);
   });
 }
-const handleAppointment=()=>{
+const handleAppointment = () => {
   const param = new URLSearchParams(window.location.search).get("doctorId");
   const status = document.getElementsByName("status");
   const selected = Array.from(status).find((button) => button.checked);
@@ -75,8 +76,8 @@ const handleAppointment=()=>{
     patient: patient_id,
     doctor: param,
   };
-  // console.log(info);
 
+  // console.log(info);
   fetch("https://testing-8az5.onrender.com/appointment/", {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -89,5 +90,15 @@ const handleAppointment=()=>{
       console.log(data);
     });
 };
+const loadPatientId = () => {
+  const user_id = localStorage.getItem("user_id");
+
+  fetch(`https://testing-8az5.onrender.com/patient/list/?user_id=${user_id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      localStorage.setItem("patient_id", data[0].id);
+    });
+};
+loadPatientId();
 getparams();
 loadTime();

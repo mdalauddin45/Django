@@ -20,5 +20,5 @@ const displayUserDetails=(data)=>{
         </div>
     `;
     parent.appendChild(div);
-}
+};
 loadUserDetails();
