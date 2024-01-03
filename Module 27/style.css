@@ -153,3 +153,14 @@ footer{
         margin: 20px;
         border: none;
 }
+.user-details-container{
+    height: 100vh;
+    width: 75%;
+    margin: auto;
+}
+.user-all{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
