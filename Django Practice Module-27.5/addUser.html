@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!--navbar-->
+    <nav class="d-flex justify-content-around align-items-center nav-container">
+      <div class=" d-flex align-items-center gap-2">
+          <h3>Sufi Store</h3>
+      </div>
+      <div class="menu-container d-flex gap-4">
+          <a href="/" class="menu">Home</a>
+          <a href="allUser.html" class="menu">All User</a>
+          <a href="loginUser.html" class="menu">Login</a>  
+      </div>
+    </nav>
+    <div class="container mt-5">
+        <h1>FakeStoreAPI Project</h1>
+    
+        <!-- ... Existing code ... -->
+    
+        <div class="row">
+          <div class="col-md-6">
+            <h2>Create New User</h2>
+            <form id="createUserForm">
+              <div class="form-group">
+                <label for="newUserName">Username:</label>
+                <input type="text" class="form-control" id="newUserName" placeholder="Enter Username" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="newUserEmail">Email:</label>
+                <input type="email" class="form-control" id="newUserEmail" placeholder="Enter Email" required>
+              </div>
+    
+              <div class="form-group">
+                <label for="newUserPassword">Password:</label>
+                <input type="password" class="form-control" id="newUserPassword" placeholder="Enter Password" required>
+              </div>
+    
+              <div class="form-group">
+                <label for="newUserPhone">Phone:</label>
+                <input type="text" class="form-control" id="newUserPhone" placeholder="Enter Phone" required>
+              </div>
+    
+              <div class="form-group">
+                <label for="newUserCity">City:</label>
+                <input type="text" class="form-control" id="newUserCity" placeholder="Enter City" required>
+              </div>
+    
+              <div class="form-group">
+                <label for="newUserZipcode">Zip code:</label>
+                <input type="text" class="form-control" id="newUserZipcode" placeholder="Enter Zip code" required>
+              </div>
+    
+              <div class="form-group">
+                <label for="newUserStreet">Street:</label>
+                <input type="text" class="form-control" id="newUserStreet" placeholder="Enter Street" required>
+              </div>
+    
+              <button type="submit" class="btn btn-primary" onclick="createNewUser(event)">Create User</button>
+            </form>
+          </div>
+        </div>
+    
+        <!-- ... Remaining code ... -->
+    
+      </div>
+    <!-- Bootstrap JS Bundle (Bootstrap + Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Your custom script file -->
+    <script src="./auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js" crossorigin="anonymous" defer></script>
+</body>
+</html>
