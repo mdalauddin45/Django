@@ -22,18 +22,16 @@
           <a href="/" class="menu">Contact Us</a>   
       </div>
     </nav>
-    <div class="searchbar text-center">
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Enter User ID" aria-label="Search">
-            <button class="button-37" type="submit">Search</button>
-        </form>
+    <div class="searchbar">
+        <input id="search" class="form-control me-2" type="text" placeholder="Enter User ID" aria-label="Search">
+        <button onclick="handleSearch()" class="button-37" >Search</button>
     </div>
     <div class="container mt-4">
         <div class="row">
             <div id="alluser" class="row" >
                 
             </div>
-            <div id="nodata" class="text-center">
+            <div id="nodata" class="nodata text-center">
                 <h3>No Data</h3>
             </div>
             <div  id="spinner" class="loading text-center m-auto spinner-border text-success" role="status">
