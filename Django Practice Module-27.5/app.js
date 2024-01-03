@@ -26,9 +26,7 @@ const displayProducts = (products) => {
     products.forEach(item => {
         const parent = document.getElementById("products");
         const div = document.createElement("div");
-        // div.classList.add("col-xl-3", "col-lg-4", "col-md-6", "col-12");
-        div.classList.add("col-lg-3", "col-md-6", "mb-4", "mb-lg-0");
-        div.classList.add("card-container");
+        div.classList.add("col-lg-3", "mb-4", "mb-lg-0", "col-md-6","col-12", "card-container");
         div.innerHTML = `
         <div class="card rounded shadow-sm border-0">
             <div class="card-body p-4"><img class="card-img" src=${item.image} alt="" class="img-fluid d-block mx-auto mb-3">

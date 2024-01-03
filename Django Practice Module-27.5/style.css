@@ -79,3 +79,9 @@ a:hover{
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
 }
+.searchbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
