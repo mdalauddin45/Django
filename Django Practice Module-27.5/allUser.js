@@ -14,7 +14,11 @@ const loadUser=(value)=>{
                 document.getElementById("nodata").style.display = "block";
             }
         }else{
-            displayUser(data);
+            if(data.id){
+                displayUser(data);
+            }else{
+                document.getElementById("nodata").style.display = "block";
+            }
         }
     })
     .catch((err) => console.log(err));

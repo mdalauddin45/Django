@@ -1,53 +1,52 @@
 const createNewUser = (event) => {
     event.preventDefault();
-    const newUserName = getValue("newUserName");
     const newUserEmail = getValue("newUserEmail");
+    const newUserName = getValue("newUserName");
     const newUserPassword = getValue("newUserPassword");
-    const newUserPhone = getValue("newUserPhone");
+    const firstname = getValue("firstname");
+    const lastname = getValue("lastname");
     const newUserCity = getValue("newUserCity");
-    const newUserZipcode = getValue("newUserZipcode");
     const newUserStreet = getValue("newUserStreet");
+    const number = getValue("num");
+    const newUserZipcode = getValue("newUserZipcode");
+    const lat = getValue("lat");
+    const long = getValue("long");
+    const newUserPhone = getValue("newUserPhone");
   
     const newUser = {
-      name: {
-        firstname: newUserName,
-        lastname: "",
-      },
+      email: newUserEmail,
       username: newUserName,
       password: newUserPassword,
-      email: newUserEmail,
-      phone: newUserPhone,
+      name: {
+        firstname: firstname,
+        lastname: lastname,
+      },
       address: {
         city: newUserCity,
-        zipcode: newUserZipcode,
         street: newUserStreet,
+        number: number,
+        zipcode: newUserZipcode,
+        geolocation:{
+          lat,
+          long,
+        },
       },
+      phone: newUserPhone,
     };
     console.log(newUser);
-
-    fetch('https://fakestoreapi.com/users', {
-      method: 'POST',
+    fetch('https://fakestoreapi.com/users',{
+      method:"POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(newUser),
+      body:JSON.stringify(newUser),
     })
     .then(response => response.json())
     .then(data => {
       console.log(data);
-    if (data.id) {
-      saveUserToLocalstorage(newUser);
-      window.location.href = "alluser.html";
-    } else {
-        console.error("User creation failed");
-    }
+      // window.location.href = "alluser.html";
     })
     .catch(error => console.error('Error:', error));
-};
-const saveUserToLocalstorage = (user) => {
-    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-    existingUsers.push(user);
-    localStorage.setItem("users", JSON.stringify(existingUsers));
 };
 const getValue = (id) => {
     const value = document.getElementById(id).value;
@@ -56,7 +55,7 @@ const getValue = (id) => {
 
 const handleLogin = (event) => {
     event.preventDefault();
-    const username = getValue("exampleInputEmail1");
+    const username = getValue("username");
     const password = getValue("exampleInputPassword1");
     
     if (username && password) {
@@ -68,10 +67,9 @@ const handleLogin = (event) => {
         .then(res => res.json())
         .then(data => {
             console.log(data);
-            if (data.success) {
-                window.location.href = "index.html";
-            } else {
-                console.error("Login failed");
+            if (data.token ) {
+              localStorage.setItem("token", data.token);
+              window.location.href = "index.html";
             }
         })
         .catch(error => console.error('Error:', error));

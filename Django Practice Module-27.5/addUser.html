@@ -32,40 +32,54 @@
             <h2>Create New User</h2>
             <form id="createUserForm">
               <div class="form-group">
-                <label for="newUserName">Username:</label>
-                <input type="text" class="form-control" id="newUserName" placeholder="Enter Username" required>
-              </div>
-              
-              <div class="form-group">
                 <label for="newUserEmail">Email:</label>
                 <input type="email" class="form-control" id="newUserEmail" placeholder="Enter Email" required>
               </div>
-    
+              <div class="form-group">
+                <label for="newUserName">Username:</label>
+                <input type="text" class="form-control" id="newUserName" placeholder="Enter Username" required>
+              </div>
               <div class="form-group">
                 <label for="newUserPassword">Password:</label>
-                <input type="password" class="form-control" id="newUserPassword" placeholder="Enter Password" required>
+                <input value="alauddin123" type="password" class="form-control" id="newUserPassword" placeholder="Enter Password" required>
               </div>
-    
               <div class="form-group">
-                <label for="newUserPhone">Phone:</label>
-                <input type="text" class="form-control" id="newUserPhone" placeholder="Enter Phone" required>
+                <label for="firstname">Firstname:</label>
+                <input value="Ala" type="text" class="form-control" id="firstname" placeholder="Enter firstname" required>
               </div>
-    
+              <div class="form-group">
+                <label for="lastname">Lastname:</label>
+                <input value="Uddin" type="text" class="form-control" id="lastname" placeholder="Enter Lastname" required>
+              </div>
               <div class="form-group">
                 <label for="newUserCity">City:</label>
-                <input type="text" class="form-control" id="newUserCity" placeholder="Enter City" required>
+                <input value="Chittagong" type="text" class="form-control" id="newUserCity" placeholder="Enter City" required>
+              </div>
+              <div class="form-group">
+                <label for="newUserStreet">Street:</label>
+                <input value="7835 new road" type="text" class="form-control" id="newUserStreet" placeholder="Enter Street" required>
+              </div>
+              <div class="form-group">
+                <label for="num">number:</label>
+                <input value="3" type="text" class="form-control" id="num" placeholder="Enter number" required>
               </div>
     
               <div class="form-group">
                 <label for="newUserZipcode">Zip code:</label>
-                <input type="text" class="form-control" id="newUserZipcode" placeholder="Enter Zip code" required>
+                <input value="4370" type="text" class="form-control" id="newUserZipcode" placeholder="Enter Zip code" required>
               </div>
-    
               <div class="form-group">
-                <label for="newUserStreet">Street:</label>
-                <input type="text" class="form-control" id="newUserStreet" placeholder="Enter Street" required>
+                <label for="lat">Lat:</label>
+                <input value="37.3159" type="text" class="form-control" id="lat" placeholder="Enter lat" required>
               </div>
-    
+              <div class="form-group">
+                <label for="long">long:</label>
+                <input value = "81.1496" type="text" class="form-control" id="long" placeholder="Enter long" required>
+              </div>
+              <div class="form-group">
+                <label for="newUserPhone">Phone:</label>
+                <input value="018123456" type="text" class="form-control" id="newUserPhone" placeholder="Enter Phone" required>
+              </div>
               <button type="submit" class="btn btn-primary" onclick="createNewUser(event)">Create User</button>
             </form>
           </div>
