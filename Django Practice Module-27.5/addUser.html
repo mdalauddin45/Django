@@ -22,22 +22,219 @@
           <a href="loginUser.html" class="menu">Login</a>  
       </div>
     </nav>
-    <div class="container mt-5">
-        <h1>FakeStoreAPI Project</h1>
-    
-        <!-- ... Existing code ... -->
-    
-        <div class="row">
+   <!--<div class="vh-100">
+      <div class="container h-100">
+        <div class="row justify-content-center align-items-center h-100">
+          <div class="col-12 col-lg-9 col-xl-7">
+            <div
+              class="card card-registration"
+              style="border-radius: 15px"
+            >
+              <div class="card-body p-4 p-md-5">
+                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center">Registration Form</h3>
+                <form id="createUserForm">
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="newUserEmail">Email:</label>
+                        <input
+                          type="email"
+                          class="form-control form-control-lg"
+                          id="newUserEmail"
+                          placeholder="Enter Email"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="newUserName">Username:</label>
+                        <input
+                          type="text"
+                          class="form-control form-control-lg"
+                          id="newUserName"
+                          placeholder="Enter Username"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="newUserPassword">Password:</label>
+                        <input
+                          value="alauddin123"
+                          type="password"
+                          class="form-control form-control-lg"
+                          id="newUserPassword"
+                          placeholder="Enter Password"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="num">number:</label>
+                        <input
+                          value="3"
+                          type="text"
+                          class="form- form-control-lg"
+                          id="num"
+                          placeholder="Enter number"
+                          required
+                        />
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="firstname">Firstname:</label>
+                        <input
+                          value="Ala"
+                          type="text"
+                          class="form-control form-control-lg"
+                          id="firstname"
+                          placeholder="Enter firstname"
+                          required
+                        />
+                        
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="lastname">Lastname:</label>
+                        <input
+                          value="uddin"
+                          type="text"
+                          class="form-control form-control-lg"
+                          id="lastname"
+                          placeholder="Enter lastname"
+                          required
+                        />
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="newUserCity">City:</label>
+                        <input
+                          value="Chittagong"
+                          type="text"
+                          class="form-control form-control-lg"
+                          id="newUserCity"
+                          placeholder="Enter City"
+                          required
+                        />
+                        
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="newUserStreet">Street:</label>
+                        <input
+                          value="7835 new road"
+                          type="text"
+                          class="form-control form-control-lg"
+                          id="newUserStreet"
+                          placeholder="Enter Street"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="newUserZipcode">Zip code:</label>
+                        <input
+                          value="4370"
+                          type="text"
+                          class="form-control form-control-lg"
+                          id="newUserZipcode"
+                          placeholder="Enter Zip code"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="lat">Lat:</label>
+                        <input
+                          value="37.3159"
+                          type="text"
+                          class="form-control form-control-lg"
+                          id="lat"
+                          placeholder="Enter lat"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="newUserPhone">Phone:</label>
+                        <input
+                          value="018123456"
+                          type="text"
+                          class="form-control form-control-lg"
+                          id="newUserPhone"
+                          placeholder="Enter Phone"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="button-37"
+                    onclick="createNewUser(event)"
+                  >
+                    Create User
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> --> 
+    <div class="container mt-5 login-card">
+        <div class="row justify-content-center align-items-center h-100">
           <div class="col-md-6">
             <h2>Create New User</h2>
-            <form id="createUserForm">
-              <div class="form-group">
-                <label for="newUserEmail">Email:</label>
-                <input type="email" class="form-control" id="newUserEmail" placeholder="Enter Email" required>
-              </div>
-              <div class="form-group">
-                <label for="newUserName">Username:</label>
-                <input type="text" class="form-control" id="newUserName" placeholder="Enter Username" required>
+            <form id="createUserForm text-center">
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="form-group">
+                    <label for="newUserEmail">Email:</label>
+                    <input
+                      type="email"
+                      class="form-control form-control-lg"
+                      id="newUserEmail"
+                      placeholder="Enter Email"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="form-group">
+                    <label for="newUserName">Username:</label>
+                    <input
+                      type="text"
+                      class="form-control form-control-lg"
+                      id="newUserName"
+                      placeholder="Enter Username"
+                      required
+                    />
+                  </div>
+                </div>
               </div>
               <div class="form-group">
                 <label for="newUserPassword">Password:</label>
@@ -83,7 +280,7 @@
               <button type="submit" class="btn btn-primary" onclick="createNewUser(event)">Create User</button>
             </form>
           </div>
-        </div>
+    </div>
     
         <!-- ... Remaining code ... -->
     
