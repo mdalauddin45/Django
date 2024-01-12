@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
 
 # Create your views here.
@@ -71,10 +71,15 @@ class UserLoginApiView(APIView):
                 token, created = Token.objects.get_or_create(user=user)
                 print(token)
                 print(created)
+                login(request,user)
                 return Response({'token': token.key, 'user_id': user.id})
             else:
                 return Response({'error': 'Invalid username or password'})
         return Response(serializer.errors)
                 
 
-       
+class UserLogoutView(APIView):
+    def get(self,request):
+        request.user.auth_token.delete()
+        logout(request)
+        return redirect('login')
