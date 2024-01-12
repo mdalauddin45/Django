@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Patient
 from django.contrib.auth.models import User
+
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
@@ -32,3 +33,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account.is_active = False
         account.save()
         return account
+    
+class UserLoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+    

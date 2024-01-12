@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
 from .models import Patient
-from .serializers import PatientSerializer,RegistrationSerializer
+from .serializers import PatientSerializer,RegistrationSerializer,UserLoginSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.tokens import default_token_generator
@@ -11,7 +11,8 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
 
 # Create your views here.
 
@@ -51,8 +52,29 @@ def activate(request, uid64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect('register')
+        return redirect('login')
     else:
       return redirect('register')  
     #   return HttpResponse('Activation link is invalid or expired.')  
-        
+
+
+class UserLoginApiView(APIView):
+    def post(self,request):
+        serializer = UserLoginSerializer(data=self.request.data)
+        if serializer.is_valid():
+            username = serializer.validated_data['username']
+            password = serializer.validated_data['password']
+            
+            user = authenticate(username=username, password=password)
+            
+            if user:
+                token, created = Token.objects.get_or_create(user=user)
+                print(token)
+                print(created)
+                return Response({'token': token.key, 'user_id': user.id})
+            else:
+                return Response({'error': 'Invalid username or password'})
+        return Response(serializer.errors)
+                
+
+       
