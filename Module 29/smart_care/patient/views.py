@@ -33,9 +33,9 @@ class UserRegistrationView(APIView):
             confirm_link = f'http://127.0.0.1:8000/patient/active/{uid}/{token}'
             print("confirm_link", confirm_link)
             email_subject = "Confirm Your Email"
-            email_body = render_to_string('',{'confirm_link': confirm_link})
-            email = EmailMultiAlternatives(email_subject, 'confirm_email.html', to=[user.email])
-            email.attach_alternative(email_body, 'text/html')
-            email.send()
+            email_body = render_to_string('confirm_email.html',{'confirm_link': confirm_link})
+            send_email = EmailMultiAlternatives(email_subject, '',to=[user.email])
+            send_email.attach_alternative(email_body, "text/html")
+            send_email.send()
             return Response("Check your email address for confirmation")
         return Response(serializer.errors)
