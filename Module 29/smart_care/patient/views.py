@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import viewsets
 from .models import Patient
 from .serializers import PatientSerializer,RegistrationSerializer
@@ -9,6 +9,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -39,3 +41,18 @@ class UserRegistrationView(APIView):
             send_email.send()
             return Response("Check your email address for confirmation")
         return Response(serializer.errors)
+
+def activate(request, uid64, token):
+    try:
+        uid = urlsafe_base64_decode(uid64).decode()
+        user = User._default_manager.get(pk=uid)
+    except(User.DoesNotExist):
+        user = None
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return redirect('register')
+    else:
+      return redirect('register')  
+    #   return HttpResponse('Activation link is invalid or expired.')  
+        
