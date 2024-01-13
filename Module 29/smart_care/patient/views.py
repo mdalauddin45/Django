@@ -77,7 +77,6 @@ class UserLoginApiView(APIView):
                 return Response({'error': 'Invalid username or password'})
         return Response(serializer.errors)
                 
-
 class UserLogoutView(APIView):
     def get(self,request):
         request.user.auth_token.delete()

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Doctor,Specialization, Designation,AvailableTime,Review
 from .serializers import DoctorSerializer,SpecializationSerializer,DesignationSerializer,AvailableTimeSerializer,ReviewSerializer
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 class DoctorViewset(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
@@ -27,6 +28,7 @@ class AvailableTimeViewset(viewsets.ModelViewSet):
     serializer_class = AvailableTimeSerializer
     
 class ReviewViewset(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     
